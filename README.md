@@ -2,7 +2,7 @@
 
 **The Ecclesia Dev project website.**
 
-Static site for [ecclesia.dev](https://ecclesia.dev) — project listings, links, and information about the Catholic software ecosystem.
+Static site for [ecclesiadev.com](https://ecclesiadev.com) — project listings, links, and information about the Catholic software ecosystem.
 
 ---
 

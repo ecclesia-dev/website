@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>mtree: File Integrity Verification on macOS | Ecclesia Dev</title>
   <meta name="description" content="Learn to use mtree — the BSD file integrity tool built into every Mac — to create manifests, detect bitrot, and verify offline archives. No install required.">
-  <link rel="canonical" href="https://ecclesia.dev/articles/mtree-file-integrity-macos.html">
+  <link rel="canonical" href="https://ecclesiadev.com/articles/mtree-file-integrity-macos.html">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="mtree: File Integrity Verification on macOS">
   <meta property="og:description" content="Learn to use mtree — the BSD file integrity tool built into every Mac — to create manifests, detect bitrot, and verify offline archives. No install required.">
-  <meta property="og:url" content="https://ecclesia.dev/articles/mtree-file-integrity-macos.html">
+  <meta property="og:url" content="https://ecclesiadev.com/articles/mtree-file-integrity-macos.html">
   <meta property="og:site_name" content="Ecclesia Dev">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="mtree: File Integrity Verification on macOS">
@@ -28,9 +28,9 @@
     "description": "Learn to use mtree — the BSD file integrity tool built into every Mac — to create manifests, detect bitrot, and verify offline archives.",
     "datePublished": "2026-02-28",
     "dateModified": "2026-02-28",
-    "author": {"@type": "Organization", "name": "Ecclesia Dev", "url": "https://ecclesia.dev"},
-    "publisher": {"@type": "Organization", "name": "Ecclesia Dev", "url": "https://ecclesia.dev"},
-    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://ecclesia.dev/articles/mtree-file-integrity-macos.html"}
+    "author": {"@type": "Organization", "name": "Ecclesia Dev", "url": "https://ecclesiadev.com"},
+    "publisher": {"@type": "Organization", "name": "Ecclesia Dev", "url": "https://ecclesiadev.com"},
+    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://ecclesiadev.com/articles/mtree-file-integrity-macos.html"}
   }
   </script>
   <script type="application/ld+json">
@@ -38,9 +38,9 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://ecclesia.dev/"},
-      {"@type": "ListItem", "position": 2, "name": "Articles", "item": "https://ecclesia.dev/articles/"},
-      {"@type": "ListItem", "position": 3, "name": "mtree: File Integrity Verification on macOS", "item": "https://ecclesia.dev/articles/mtree-file-integrity-macos.html"}
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://ecclesiadev.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Articles", "item": "https://ecclesiadev.com/articles/"},
+      {"@type": "ListItem", "position": 3, "name": "mtree: File Integrity Verification on macOS", "item": "https://ecclesiadev.com/articles/mtree-file-integrity-macos.html"}
     ]
   }
   </script>
@@ -59,7 +59,8 @@
     </ul>
   </nav>
 
-  <article class="article-page" role="main" id="main-content">
+  <main id="main-content">
+  <article class="article-page">
 
     <header class="article-header">
       <p class="article-back"><a href="index.html">← Articles</a></p>
@@ -147,7 +148,7 @@
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>Output</th><th>Meaning</th></tr>
+            <tr><th scope="col">Output</th><th scope="col">Meaning</th></tr>
           </thead>
           <tbody>
             <tr><td><code>filename changed</code> (multi-line)</td><td>File modified; field-level diffs follow on indented lines</td></tr>
@@ -236,7 +237,7 @@ mtree -c -K sha256digest,size -p /Volumes/Archive > manifest.mtree</code></pre>
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>Keyword</th><th>What It Checks</th></tr>
+            <tr><th scope="col">Keyword</th><th scope="col">What It Checks</th></tr>
           </thead>
           <tbody>
             <tr><td><code>sha256digest</code></td><td>File content (SHA-256)</td></tr>
@@ -375,6 +376,7 @@ fi</code></pre>
     </section>
 
   </article>
+  </main>
 
   <section class="article-related" aria-label="Related articles">
     <h2>More from Ecclesia Dev</h2>
