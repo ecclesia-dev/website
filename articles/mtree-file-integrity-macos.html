@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mtree — File Integrity Verification on macOS | Ecclesia Dev</title>
+  <meta name="description" content="A practical guide to using mtree, the BSD file integrity tool already on your Mac, to detect bitrot and verify offline archives.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <nav>
+    <a class="logo" href="../index.html">✝ Ecclesia Dev</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="index.html">Articles</a></li>
+      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../index.html#support">Support</a></li>
+    </ul>
+  </nav>
+
+  <article class="article-page">
+
+    <header class="article-header">
+      <p class="article-back"><a href="index.html">← Articles</a></p>
+      <h1>mtree — File Integrity Verification on macOS</h1>
+      <p class="article-meta">February 28, 2026 &nbsp;·&nbsp; Ecclesia Dev</p>
+      <p class="article-lead">
+        Most people have never heard of <code>mtree</code>. It ships with every Mac,
+        has been in BSD since the early 90s, and does one thing extremely well:
+        it tells you whether your files have changed.
+        No install. No dependencies. Already on your machine.
+      </p>
+    </header>
+
+    <hr class="article-rule">
+
+    <nav class="article-toc">
+      <p class="toc-title">Contents</p>
+      <ol>
+        <li><a href="#what-is-mtree">What Is mtree?</a></li>
+        <li><a href="#why">Why You'd Use It</a></li>
+        <li><a href="#basic-usage">Basic Usage</a></li>
+        <li><a href="#manifest">What a Manifest Looks Like</a></li>
+        <li><a href="#workflow">Real-World Workflow</a></li>
+        <li><a href="#filtering">Filtering What Gets Checked</a></li>
+        <li><a href="#excluding">Excluding Files</a></li>
+        <li><a href="#tips">Practical Tips</a></li>
+        <li><a href="#caveats">Caveats</a></li>
+        <li><a href="#reference">Quick Reference</a></li>
+        <li><a href="#script">The Full Verification Script</a></li>
+      </ol>
+    </nav>
+
+    <section id="what-is-mtree">
+      <h2>What Is mtree?</h2>
+      <p>
+        <code>mtree</code> was originally written to verify that OS distribution trees arrived intact
+        after installation. You generate a <em>manifest</em> — a snapshot of a directory's contents,
+        permissions, and checksums — then verify against it later.
+      </p>
+      <p>
+        Think of it as a fingerprint for a directory. Run it now, run it again in six months.
+        If anything changed, it tells you exactly what.
+      </p>
+    </section>
+
+    <section id="why">
+      <h2>Why You'd Use It</h2>
+      <ul>
+        <li>You have an archive drive and want to know if anything silently corrupted</li>
+        <li>You want to verify a backup was written correctly</li>
+        <li>You want to detect unexpected file changes</li>
+        <li>You want a dead-simple integrity check with no third-party tools</li>
+      </ul>
+    </section>
+
+    <section id="basic-usage">
+      <h2>Basic Usage</h2>
+
+      <h3>Create a Manifest</h3>
+      <pre><code>mtree -c -K sha256digest -p /path/to/directory > manifest.mtree</code></pre>
+      <p>Flags:</p>
+      <ul>
+        <li><code>-c</code> — create mode (build a manifest)</li>
+        <li><code>-K sha256digest</code> — include SHA-256 checksums for every file</li>
+        <li><code>-p /path</code> — the directory to fingerprint</li>
+      </ul>
+      <p class="aside">
+        Store the manifest somewhere other than the directory you're verifying.
+        If it lives on the same drive, you can't trust it.
+      </p>
+
+      <h3>Verify Against a Manifest</h3>
+      <pre><code>mtree -f manifest.mtree -p /path/to/directory</code></pre>
+      <p><strong>Silence means nothing changed.</strong> Output means something did.</p>
+
+      <h3>Reading the Output</h3>
+      <pre><code>$ mtree -f manifest.mtree -p /Volumes/Archive
+
+backup-2025.tar.gz: sha256digest (3d4f8ac2..., 9b1e3f77...)
+notes.txt: missing
+newfile.pdf: extra</code></pre>
+
+      <table>
+        <thead>
+          <tr><th>Output</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>filename: sha256digest (old, new)</code></td><td>File content changed</td></tr>
+          <tr><td><code>filename: missing</code></td><td>File was deleted</td></tr>
+          <tr><td><code>filename: extra</code></td><td>New file appeared</td></tr>
+          <tr><td><code>filename: size (old, new)</code></td><td>File size changed</td></tr>
+          <tr><td><code>filename: mode (old, new)</code></td><td>Permissions changed</td></tr>
+          <tr><td><em>(no output)</em></td><td>Everything matches ✓</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="manifest">
+      <h2>What a Manifest Looks Like</h2>
+      <pre><code>#          user: tim
+#       machine: Tims-Mac
+#          tree: /Volumes/Archive
+#          date: Sat Feb 28 10:00:00 2026
+
+/set type=file uid=501 gid=20 mode=0644
+.               type=dir mode=0755 time=1740750000.0
+    taxes-2025.pdf \
+                size=204800 \
+                sha256digest=3d4f8ac2e1b97f44c8a02193d5e6f8b1...
+    resume.pdf \
+                size=98304 \
+                sha256digest=7c2e1b44f9a83d52c017e4b8a63f2d90...</code></pre>
+      <p>Plain text. Human-readable. Diffable with standard tools.</p>
+    </section>
+
+    <section id="workflow">
+      <h2>Real-World Workflow</h2>
+
+      <h3>Archive Drive</h3>
+      <p>
+        You write files to an external drive once and store it offline. Before putting it away,
+        fingerprint it. On every spin-up, verify before touching anything.
+      </p>
+      <pre><code># Step 1: Write your files to the drive
+
+# Step 2: Fingerprint it
+mtree -c -K sha256digest -p /Volumes/Archive > ~/Archive-manifest.mtree
+
+# Step 3: Store the manifest in iCloud (not on the drive)
+cp ~/Archive-manifest.mtree \
+   "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Manifests/Archive-manifest.mtree"
+
+# Step 4: Lock the drive (optional but recommended)
+chflags -R uchg /Volumes/Archive
+
+# Step 5: Eject and store offline</code></pre>
+
+      <p>On every spin-up:</p>
+      <pre><code># Verify before doing anything else
+mtree -f ~/Archive-manifest.mtree -p /Volumes/Archive
+
+# Clean output = all good
+# Any output = investigate before proceeding</code></pre>
+
+      <h3>Verifying a Tar Archive</h3>
+      <p>
+        mtree verifies live directory trees, not archives.
+        To check a tar, use sha256 directly:
+      </p>
+      <pre><code># Checksum the archive
+shasum -a 256 backup.tar.gz > backup.sha256
+
+# Verify later
+shasum -a 256 -c backup.sha256</code></pre>
+      <p>Use mtree for directories, sha256 for archives. They complement each other.</p>
+    </section>
+
+    <section id="filtering">
+      <h2>Filtering What Gets Checked</h2>
+      <p>By default mtree checks everything. Narrow it with <code>-K</code>:</p>
+      <pre><code># Check content and size only (ignore permission/ownership changes)
+mtree -c -K sha256digest,size -p /Volumes/Archive > manifest.mtree</code></pre>
+
+      <table>
+        <thead>
+          <tr><th>Keyword</th><th>What It Checks</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>sha256digest</code></td><td>File content (SHA-256)</td></tr>
+          <tr><td><code>size</code></td><td>File size in bytes</td></tr>
+          <tr><td><code>mode</code></td><td>Permissions</td></tr>
+          <tr><td><code>uid</code>, <code>gid</code></td><td>Ownership</td></tr>
+          <tr><td><code>time</code></td><td>Modification time</td></tr>
+          <tr><td><code>link</code></td><td>Symlink target</td></tr>
+        </tbody>
+      </table>
+      <p>For data integrity, <code>sha256digest</code> is the one that matters.</p>
+    </section>
+
+    <section id="excluding">
+      <h2>Excluding Files</h2>
+      <p>Use <code>-X</code> with a file listing patterns to exclude:</p>
+      <pre><code># Create exclusion list
+cat > mtree-exclude.txt &lt;&lt; 'EOF'
+.DS_Store
+.Spotlight-V100
+.fseventsd
+Thumbs.db
+EOF
+
+# Generate manifest excluding those patterns
+mtree -c -K sha256digest -p /Volumes/Archive \
+      -X mtree-exclude.txt > manifest.mtree</code></pre>
+      <p>
+        macOS drops <code>.DS_Store</code> everywhere. Exclude it or your manifest will be full of noise.
+      </p>
+    </section>
+
+    <section id="tips">
+      <h2>Practical Tips</h2>
+
+      <p><strong>Always store the manifest off the drive.</strong><br>
+      A manifest on the same drive it describes can't detect tampering. Store it in iCloud,
+      on your main machine, or in a second location.</p>
+
+      <p><strong>Date your manifests.</strong></p>
+      <pre><code>mtree -c -K sha256digest -p /Volumes/Archive \
+  > "Archive-manifest-$(date +%Y-%m-%d).mtree"</code></pre>
+
+      <p><strong>Keep multiple manifests.</strong><br>
+      One from when you first wrote the data. One from last verification.
+      If something changes, you know when it happened.</p>
+
+      <p><strong>Pipe through a clean report script.</strong></p>
+      <pre><code>RESULT=$(mtree -f manifest.mtree -p /Volumes/Archive 2>&1)
+if [ -z "$RESULT" ]; then
+    echo "✓ All files verified clean — $(date)"
+else
+    echo "⚠ Changes detected:"
+    echo "$RESULT"
+fi</code></pre>
+    </section>
+
+    <section id="caveats">
+      <h2>Caveats</h2>
+
+      <p><strong>Extended attributes and resource forks.</strong><br>
+      macOS uses xattrs heavily — Finder tags, quarantine flags, metadata. mtree doesn't
+      capture these by default. For data integrity (has the file <em>content</em> changed)
+      it's fine. For exact filesystem reproduction, you'd need additional tooling.</p>
+
+      <p><strong>Detection only — not repair.</strong><br>
+      mtree tells you something changed. It doesn't fix it or tell you what the content
+      was before. Your backups handle recovery; mtree tells you recovery is needed.</p>
+
+      <p><strong>Not a continuous monitor.</strong><br>
+      mtree is a point-in-time comparison tool. It doesn't watch for changes in real time.
+      Run it on spin-up, before writes, and after writes.</p>
+
+      <p><strong>Large drives take time.</strong><br>
+      SHA-256 checksumming a 2TB drive takes a while. Plan accordingly on first manifest generation.</p>
+    </section>
+
+    <section id="reference">
+      <h2>Quick Reference</h2>
+      <pre><code># Create manifest
+mtree -c -K sha256digest -p /path > manifest.mtree
+
+# Verify
+mtree -f manifest.mtree -p /path
+
+# Create with exclusions
+mtree -c -K sha256digest -p /path -X exclude.txt > manifest.mtree
+
+# Check content and size only
+mtree -c -K sha256digest,size -p /path > manifest.mtree
+
+# Read the manual
+man mtree</code></pre>
+    </section>
+
+    <section id="script">
+      <h2>The Full Verification Script</h2>
+      <p>
+        Drop this in your path. Run it every time you spin up an archive drive.
+      </p>
+      <pre><code>#!/bin/bash
+# verify-archive.sh — spin-up verification for offline drive
+
+DRIVE="/Volumes/Archive"
+MANIFEST="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Manifests/Archive-manifest.mtree"
+
+if [ ! -d "$DRIVE" ]; then
+    echo "Drive not mounted at $DRIVE"
+    exit 1
+fi
+
+if [ ! -f "$MANIFEST" ]; then
+    echo "No manifest found. Creating one now..."
+    mtree -c -K sha256digest -p "$DRIVE" > "$MANIFEST"
+    echo "✓ Manifest created: $MANIFEST"
+    exit 0
+fi
+
+echo "→ Verifying $DRIVE against manifest..."
+RESULT=$(mtree -f "$MANIFEST" -p "$DRIVE" 2>&1)
+
+if [ -z "$RESULT" ]; then
+    echo "✓ All files verified clean — $(date)"
+else
+    echo "⚠ Changes detected:"
+    echo "$RESULT"
+fi</code></pre>
+
+      <p class="aside">
+        <code>mtree</code> has been sitting quietly in <code>/usr/bin</code> on your Mac the whole time.
+        Now you know it's there.
+      </p>
+    </section>
+
+  </article>
+
+  <footer>
+    <div class="ichthys">☧</div>
+    <div class="motto">Ad maiorem Dei gloriam</div>
+    <div class="ichthys" style="font-size:1.4rem; margin-top:0.5rem;">ΙΧΘΥΣ</div>
+    <p class="copy">&copy; 2026 Ecclesia Dev</p>
+    <p class="copy">Built by the ecclesia-dev agent team — Polycarp, Bede, Chrysostom, Pius, and others.</p>
+  </footer>
+
+</body>
+</html>
