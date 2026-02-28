@@ -9,15 +9,15 @@
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"></noscript>
   <link rel="stylesheet" href="../style.css">
   <meta property="og:type" content="article">
   <meta property="og:title" content="mtree: File Integrity Verification on macOS">
   <meta property="og:description" content="Learn to use mtree — the BSD file integrity tool built into every Mac — to create manifests, detect bitrot, and verify offline archives. No install required.">
   <meta property="og:url" content="https://ecclesia.dev/articles/mtree-file-integrity-macos.html">
   <meta property="og:site_name" content="Ecclesia Dev">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="mtree: File Integrity Verification on macOS">
   <meta name="twitter:description" content="The BSD file integrity tool already on your Mac. No install. Create manifests, detect bitrot, verify offline archives.">
   <script type="application/ld+json">
@@ -138,11 +138,11 @@
       <h3>Reading the Output</h3>
       <pre><code>$ mtree -f manifest.mtree -p /Volumes/Archive
 
-file1.txt changed
+./file1.txt changed
 	modification time expected Sat Feb 28 10:00:00 2026 found Sat Feb 28 11:00:00 2026
-	SHA-256 expected 3d4f8ac2... found 9b1e3f77...
+	sha256digest expected 3d4f8ac2... found 9b1e3f77...
 ./notes.txt missing
-newfile.pdf extra</code></pre>
+./newfile.pdf extra</code></pre>
 
       <div class="table-wrap">
         <table>
@@ -365,6 +365,7 @@ if [ -z "$RESULT" ]; then
 else
     echo "⚠ Changes detected:"
     echo "$RESULT"
+    exit 1
 fi</code></pre>
 
       <p class="aside">
@@ -375,7 +376,7 @@ fi</code></pre>
 
   </article>
 
-  <section class="article-related">
+  <section class="article-related" aria-label="Related articles">
     <h2>More from Ecclesia Dev</h2>
     <p>Building open source tools for the traditional faith. <a href="../index.html#projects">View all projects →</a></p>
   </section>
