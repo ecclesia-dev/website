@@ -3,17 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mtree — File Integrity Verification on macOS | Ecclesia Dev</title>
-  <meta name="description" content="A practical guide to using mtree, the BSD file integrity tool already on your Mac, to detect bitrot and verify offline archives.">
+  <title>mtree: File Integrity Verification on macOS | Ecclesia Dev</title>
+  <meta name="description" content="Learn to use mtree — the BSD file integrity tool built into every Mac — to create manifests, detect bitrot, and verify offline archives. No install required.">
+  <link rel="canonical" href="https://ecclesiadev.com/articles/mtree-file-integrity-macos.html">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"></noscript>
   <link rel="stylesheet" href="../style.css">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="mtree: File Integrity Verification on macOS">
+  <meta property="og:description" content="Learn to use mtree — the BSD file integrity tool built into every Mac — to create manifests, detect bitrot, and verify offline archives. No install required.">
+  <meta property="og:url" content="https://ecclesiadev.com/articles/mtree-file-integrity-macos.html">
+  <meta property="og:site_name" content="Ecclesia Dev">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="mtree: File Integrity Verification on macOS">
+  <meta name="twitter:description" content="The BSD file integrity tool already on your Mac. No install. Create manifests, detect bitrot, verify offline archives.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "mtree: File Integrity Verification on macOS",
+    "description": "Learn to use mtree — the BSD file integrity tool built into every Mac — to create manifests, detect bitrot, and verify offline archives.",
+    "datePublished": "2026-02-28",
+    "dateModified": "2026-02-28",
+    "author": {"@type": "Organization", "name": "Ecclesia Dev", "url": "https://ecclesiadev.com"},
+    "publisher": {"@type": "Organization", "name": "Ecclesia Dev", "url": "https://ecclesiadev.com"},
+    "mainEntityOfPage": {"@type": "WebPage", "@id": "https://ecclesiadev.com/articles/mtree-file-integrity-macos.html"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://ecclesiadev.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Articles", "item": "https://ecclesiadev.com/articles/"},
+      {"@type": "ListItem", "position": 3, "name": "mtree: File Integrity Verification on macOS", "item": "https://ecclesiadev.com/articles/mtree-file-integrity-macos.html"}
+    ]
+  }
+  </script>
 </head>
 <body>
 
-  <nav>
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+
+  <nav aria-label="Site navigation">
     <a class="logo" href="../index.html">✝ Ecclesia Dev</a>
     <ul>
       <li><a href="../index.html#projects">Projects</a></li>
@@ -23,11 +59,12 @@
     </ul>
   </nav>
 
+  <main id="main-content">
   <article class="article-page">
 
     <header class="article-header">
       <p class="article-back"><a href="index.html">← Articles</a></p>
-      <h1>mtree — File Integrity Verification on macOS</h1>
+      <h1>mtree: File Integrity Verification on macOS</h1>
       <p class="article-meta">February 28, 2026 &nbsp;·&nbsp; Ecclesia Dev</p>
       <p class="article-lead">
         Most people have never heard of <code>mtree</code>. It ships with every Mac,
@@ -39,18 +76,18 @@
 
     <hr class="article-rule">
 
-    <nav class="article-toc">
+    <nav class="article-toc" aria-label="Table of contents">
       <p class="toc-title">Contents</p>
       <ol>
         <li><a href="#what-is-mtree">What Is mtree?</a></li>
         <li><a href="#why">Why You'd Use It</a></li>
-        <li><a href="#basic-usage">Basic Usage</a></li>
+        <li><a href="#how-to-use-mtree-on-macos">How to Use mtree on macOS</a></li>
         <li><a href="#manifest">What a Manifest Looks Like</a></li>
-        <li><a href="#workflow">Real-World Workflow</a></li>
+        <li><a href="#mtree-workflow-archive-drives-and-backups">mtree Workflow: Archive Drives and Backups</a></li>
         <li><a href="#filtering">Filtering What Gets Checked</a></li>
         <li><a href="#excluding">Excluding Files</a></li>
         <li><a href="#tips">Practical Tips</a></li>
-        <li><a href="#caveats">Caveats</a></li>
+        <li><a href="#mtree-limitations-on-macos">mtree Limitations on macOS</a></li>
         <li><a href="#reference">Quick Reference</a></li>
         <li><a href="#script">The Full Verification Script</a></li>
       </ol>
@@ -79,8 +116,8 @@
       </ul>
     </section>
 
-    <section id="basic-usage">
-      <h2>Basic Usage</h2>
+    <section id="how-to-use-mtree-on-macos">
+      <h2>How to Use mtree on macOS</h2>
 
       <h3>Create a Manifest</h3>
       <pre><code>mtree -c -K sha256digest -p /path/to/directory > manifest.mtree</code></pre>
@@ -102,29 +139,33 @@
       <h3>Reading the Output</h3>
       <pre><code>$ mtree -f manifest.mtree -p /Volumes/Archive
 
-backup-2025.tar.gz: sha256digest (3d4f8ac2..., 9b1e3f77...)
-notes.txt: missing
-newfile.pdf: extra</code></pre>
+./file1.txt changed
+	modification time expected Sat Feb 28 10:00:00 2026 found Sat Feb 28 11:00:00 2026
+	sha256digest expected 3d4f8ac2... found 9b1e3f77...
+./notes.txt missing
+./newfile.pdf extra</code></pre>
 
-      <table>
-        <thead>
-          <tr><th>Output</th><th>Meaning</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><code>filename: sha256digest (old, new)</code></td><td>File content changed</td></tr>
-          <tr><td><code>filename: missing</code></td><td>File was deleted</td></tr>
-          <tr><td><code>filename: extra</code></td><td>New file appeared</td></tr>
-          <tr><td><code>filename: size (old, new)</code></td><td>File size changed</td></tr>
-          <tr><td><code>filename: mode (old, new)</code></td><td>Permissions changed</td></tr>
-          <tr><td><em>(no output)</em></td><td>Everything matches ✓</td></tr>
-        </tbody>
-      </table>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Output</th><th scope="col">Meaning</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>filename changed</code> (multi-line)</td><td>File modified; field-level diffs follow on indented lines</td></tr>
+            <tr><td><code>filename missing</code></td><td>File was deleted</td></tr>
+            <tr><td><code>filename extra</code></td><td>New file appeared</td></tr>
+            <tr><td><code>filename: size (old, new)</code></td><td>File size changed</td></tr>
+            <tr><td><code>filename: mode (old, new)</code></td><td>Permissions changed</td></tr>
+            <tr><td><em>(no output)</em></td><td>Everything matches ✓</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section id="manifest">
       <h2>What a Manifest Looks Like</h2>
-      <pre><code>#          user: tim
-#       machine: Tims-Mac
+      <pre><code>#          user: yourname
+#       machine: your-mac
 #          tree: /Volumes/Archive
 #          date: Sat Feb 28 10:00:00 2026
 
@@ -139,8 +180,8 @@ newfile.pdf: extra</code></pre>
       <p>Plain text. Human-readable. Diffable with standard tools.</p>
     </section>
 
-    <section id="workflow">
-      <h2>Real-World Workflow</h2>
+    <section id="mtree-workflow-archive-drives-and-backups">
+      <h2>mtree Workflow: Archive Drives and Backups</h2>
 
       <h3>Archive Drive</h3>
       <p>
@@ -149,21 +190,27 @@ newfile.pdf: extra</code></pre>
       </p>
       <pre><code># Step 1: Write your files to the drive
 
-# Step 2: Fingerprint it
-mtree -c -K sha256digest -p /Volumes/Archive > ~/Archive-manifest.mtree
+# Step 2: Fingerprint it — store the manifest in iCloud, not on the drive
+# (A manifest on the drive it describes cannot be trusted)
+MANIFEST="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Manifests/Archive-manifest.mtree"
+/usr/sbin/mtree -c -K sha256digest -p /Volumes/Archive > "$MANIFEST"
 
-# Step 3: Store the manifest in iCloud (not on the drive)
-cp ~/Archive-manifest.mtree \
-   "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Manifests/Archive-manifest.mtree"
-
-# Step 4: Lock the drive (optional but recommended)
+# Step 3: Set immutable flag to prevent accidental modification (not a security control — easily reversed by file owner)
 chflags -R uchg /Volumes/Archive
+# This prevents accidental Finder writes. It does not protect against anyone with file ownership access.
 
-# Step 5: Eject and store offline</code></pre>
+# Step 4: Eject and store offline</code></pre>
+
+      <p class="aside">
+        <strong>Note:</strong> An mtree manifest contains filenames, sizes, and directory structure —
+        metadata about your drive. Storing it in iCloud is convenient but means Apple can see what
+        files are on your archive. For sensitive archives, store the manifest on your local machine only.
+      </p>
 
       <p>On every spin-up:</p>
       <pre><code># Verify before doing anything else
-mtree -f ~/Archive-manifest.mtree -p /Volumes/Archive
+MANIFEST="$HOME/Library/Mobile Documents/com~apple~CloudDocs/Manifests/Archive-manifest.mtree"
+/usr/sbin/mtree -f "$MANIFEST" -p /Volumes/Archive
 
 # Clean output = all good
 # Any output = investigate before proceeding</code></pre>
@@ -187,19 +234,21 @@ shasum -a 256 -c backup.sha256</code></pre>
       <pre><code># Check content and size only (ignore permission/ownership changes)
 mtree -c -K sha256digest,size -p /Volumes/Archive > manifest.mtree</code></pre>
 
-      <table>
-        <thead>
-          <tr><th>Keyword</th><th>What It Checks</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><code>sha256digest</code></td><td>File content (SHA-256)</td></tr>
-          <tr><td><code>size</code></td><td>File size in bytes</td></tr>
-          <tr><td><code>mode</code></td><td>Permissions</td></tr>
-          <tr><td><code>uid</code>, <code>gid</code></td><td>Ownership</td></tr>
-          <tr><td><code>time</code></td><td>Modification time</td></tr>
-          <tr><td><code>link</code></td><td>Symlink target</td></tr>
-        </tbody>
-      </table>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Keyword</th><th scope="col">What It Checks</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>sha256digest</code></td><td>File content (SHA-256)</td></tr>
+            <tr><td><code>size</code></td><td>File size in bytes</td></tr>
+            <tr><td><code>mode</code></td><td>Permissions</td></tr>
+            <tr><td><code>uid</code>, <code>gid</code></td><td>Ownership</td></tr>
+            <tr><td><code>time</code></td><td>Modification time</td></tr>
+            <tr><td><code>link</code></td><td>Symlink target</td></tr>
+          </tbody>
+        </table>
+      </div>
       <p>For data integrity, <code>sha256digest</code> is the one that matters.</p>
     </section>
 
@@ -238,7 +287,7 @@ mtree -c -K sha256digest -p /Volumes/Archive \
       If something changes, you know when it happened.</p>
 
       <p><strong>Pipe through a clean report script.</strong></p>
-      <pre><code>RESULT=$(mtree -f manifest.mtree -p /Volumes/Archive 2>&1)
+      <pre><code>RESULT=$(mtree -f manifest.mtree -p /Volumes/Archive 2>&amp;1)
 if [ -z "$RESULT" ]; then
     echo "✓ All files verified clean — $(date)"
 else
@@ -247,8 +296,8 @@ else
 fi</code></pre>
     </section>
 
-    <section id="caveats">
-      <h2>Caveats</h2>
+    <section id="mtree-limitations-on-macos">
+      <h2>mtree Limitations on macOS</h2>
 
       <p><strong>Extended attributes and resource forks.</strong><br>
       macOS uses xattrs heavily — Finder tags, quarantine flags, metadata. mtree doesn't
@@ -302,20 +351,22 @@ if [ ! -d "$DRIVE" ]; then
 fi
 
 if [ ! -f "$MANIFEST" ]; then
-    echo "No manifest found. Creating one now..."
-    mtree -c -K sha256digest -p "$DRIVE" > "$MANIFEST"
-    echo "✓ Manifest created: $MANIFEST"
-    exit 0
+    echo "✗ No manifest found at: $MANIFEST"
+    echo "  To create an initial manifest, run:"
+    echo "    /usr/sbin/mtree -c -K sha256digest -p \"$DRIVE\" > \"$MANIFEST\""
+    echo "  Only do this if you trust the current state of the drive."
+    exit 2
 fi
 
 echo "→ Verifying $DRIVE against manifest..."
-RESULT=$(mtree -f "$MANIFEST" -p "$DRIVE" 2>&1)
+RESULT=$(mtree -f "$MANIFEST" -p "$DRIVE" 2>&amp;1)
 
 if [ -z "$RESULT" ]; then
     echo "✓ All files verified clean — $(date)"
 else
     echo "⚠ Changes detected:"
     echo "$RESULT"
+    exit 1
 fi</code></pre>
 
       <p class="aside">
@@ -325,6 +376,12 @@ fi</code></pre>
     </section>
 
   </article>
+  </main>
+
+  <section class="article-related" aria-label="Related articles">
+    <h2>More from Ecclesia Dev</h2>
+    <p>Building open source tools for the traditional faith. <a href="../index.html#projects">View all projects →</a></p>
+  </section>
 
   <footer>
     <div class="ichthys">☧</div>
