@@ -8,6 +8,8 @@
   --text-muted:#a09a8e;
   --gold:      #c5a550;
   --gold-dim:  #8a7238;
+  --liturgical-color: #2E7D32;
+  --liturgical-dim: color-mix(in srgb, var(--liturgical-color) 55%, black);
   --border:    #2a2a2a;
 }
 
@@ -25,7 +27,7 @@ body {
 }
 
 a {
-  color: var(--gold);
+  color: var(--liturgical-color);
   text-decoration: none;
 }
 a:hover {
@@ -40,7 +42,7 @@ a:hover {
 .skip-nav:focus {
   left: 0; top: 0; width: auto; height: auto;
   padding: 0.5rem 1rem;
-  background: var(--gold); color: var(--bg);
+  background: var(--liturgical-color); color: var(--bg);
   z-index: 999; overflow: visible;
 }
 
@@ -75,7 +77,7 @@ header nav a {
 }
 
 header nav a:hover {
-  color: var(--gold);
+  color: var(--liturgical-color);
   text-decoration: none;
 }
 
@@ -89,7 +91,7 @@ header nav a:hover {
 
 .cross {
   font-size: 1.8rem;
-  color: var(--gold);
+  color: var(--liturgical-color);
   display: block;
   margin-bottom: 0.8rem;
 }
@@ -97,7 +99,7 @@ header nav a:hover {
 .hero h1 {
   font-size: 2.2rem;
   font-weight: 600;
-  color: var(--gold);
+  color: var(--liturgical-color);
   margin-bottom: 0.8rem;
   letter-spacing: 0.02em;
 }
@@ -117,7 +119,7 @@ section h2 {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--gold);
+  color: var(--liturgical-color);
   margin-bottom: 1.2rem;
 }
 
@@ -223,15 +225,15 @@ footer .motto {
   color: var(--text-muted);
 }
 .article-back a {
-  color: var(--gold);
-  border-bottom: 1px solid var(--gold-dim);
+  color: var(--liturgical-color);
+  border-bottom: 1px solid var(--liturgical-dim);
 }
 .article-back a:hover { color: var(--text); border-color: var(--text); text-decoration: none; }
 
 .article-header h1 {
   font-size: 2.2rem;
   line-height: 1.2;
-  color: var(--gold);
+  color: var(--liturgical-color);
   margin-bottom: 0.8rem;
 }
 
@@ -254,7 +256,7 @@ footer .motto {
 .article-rule {
   width: 60px;
   height: 1px;
-  background: var(--gold-dim);
+  background: var(--liturgical-dim);
   border: none;
   margin: 2.5rem 0;
 }
@@ -264,7 +266,7 @@ footer .motto {
   background: var(--bg-code);
   padding: 1.4rem 1.8rem;
   margin-bottom: 3rem;
-  border-left: 3px solid var(--gold-dim);
+  border-left: 3px solid var(--liturgical-dim);
 }
 
 .toc-title {
@@ -281,7 +283,7 @@ footer .motto {
 }
 
 .article-toc li { margin-bottom: 0.3rem; font-size: 0.95rem; }
-.article-toc a { color: var(--gold); border-bottom: 1px solid transparent; }
+.article-toc a { color: var(--liturgical-color); border-bottom: 1px solid transparent; }
 .article-toc a:hover { color: var(--text); border-color: var(--text); text-decoration: none; }
 
 /* === Article Body === */
@@ -293,7 +295,7 @@ footer .motto {
 
 .article-page h2 {
   font-size: 1.6rem;
-  color: var(--gold);
+  color: var(--liturgical-color);
   margin-bottom: 1rem;
   padding-bottom: 0.3rem;
   border-bottom: 1px solid var(--border);
@@ -324,7 +326,7 @@ code {
   font-size: 0.83em;
   background: var(--bg-code);
   padding: 0.1em 0.35em;
-  color: var(--gold);
+  color: var(--liturgical-color);
 }
 
 pre {
@@ -333,7 +335,7 @@ pre {
   padding: 1.4rem 1.6rem;
   overflow-x: auto;
   margin: 1.2rem 0 1.5rem;
-  border-left: 3px solid var(--gold-dim);
+  border-left: 3px solid var(--liturgical-dim);
   line-height: 1.6;
 }
 
@@ -357,8 +359,8 @@ pre code {
   text-align: left;
   padding: 0.6rem 1rem;
   font-weight: 600;
-  color: var(--gold);
-  border-bottom: 2px solid var(--gold-dim);
+  color: var(--liturgical-color);
+  border-bottom: 2px solid var(--liturgical-dim);
 }
 
 .article-page td {
@@ -379,7 +381,7 @@ pre code {
 /* === Aside === */
 .aside {
   background: var(--bg-code);
-  border-left: 3px solid var(--gold-dim);
+  border-left: 3px solid var(--liturgical-dim);
   padding: 0.9rem 1.2rem;
   font-style: italic;
   font-size: 0.95rem;
@@ -397,7 +399,7 @@ pre code {
 
 .article-related h2 {
   font-size: 1.1rem;
-  color: var(--gold);
+  color: var(--liturgical-color);
   margin-bottom: 0.5rem;
 }
 
@@ -407,8 +409,8 @@ pre code {
 }
 
 .article-related a {
-  color: var(--gold);
-  border-bottom: 1px solid var(--gold-dim);
+  color: var(--liturgical-color);
+  border-bottom: 1px solid var(--liturgical-dim);
 }
 
 .article-related a:hover { color: var(--text); border-color: var(--text); text-decoration: none; }
@@ -432,7 +434,7 @@ pre code {
 .article-card:first-of-type { border-top: 1px solid var(--border); }
 
 .article-card:hover { text-decoration: none; }
-.article-card:hover .article-card-title { color: var(--gold); }
+.article-card:hover .article-card-title { color: var(--liturgical-color); }
 
 .article-card-meta {
   font-size: 0.78rem;
@@ -456,12 +458,12 @@ pre code {
 
 .article-read {
   font-size: 0.88rem;
-  color: var(--gold);
+  color: var(--liturgical-color);
 }
 
 .cta-link {
-  color: var(--gold);
-  border-bottom: 1px solid var(--gold-dim);
+  color: var(--liturgical-color);
+  border-bottom: 1px solid var(--liturgical-dim);
 }
 .cta-link:hover { color: var(--text); border-color: var(--text); text-decoration: none; }
 
@@ -488,13 +490,13 @@ nav:not(header nav) a {
   font-size: 0.95rem;
 }
 nav:not(header nav) a:hover {
-  color: var(--gold);
+  color: var(--liturgical-color);
   text-decoration: none;
 }
 
 /* Article pages still use the old nav structure — keep these working */
 nav .logo {
-  color: var(--gold);
+  color: var(--liturgical-color);
   font-size: 1rem;
   font-weight: 600;
 }
@@ -503,13 +505,13 @@ nav .logo:hover { text-decoration: none; opacity: 0.8; }
 /* Articles index uses section-title / section-rule */
 .section-title {
   font-size: 1.6rem;
-  color: var(--gold);
+  color: var(--liturgical-color);
   margin-bottom: 0.5rem;
 }
 .section-rule {
   width: 60px;
   height: 1px;
-  background: var(--gold-dim);
+  background: var(--liturgical-dim);
   border: none;
   margin: 0 0 2.5rem;
 }
