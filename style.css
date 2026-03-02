@@ -6,9 +6,8 @@
   --bg-code:   #1a1a1a;
   --text:      #e8e4d9;
   --text-muted:#a09a8e;
-  --gold:      #c5a550;
-  --gold-dim:  #8a7238;
   --liturgical-color: #2E7D32;
+  --liturgical-dim: #1a4a1c;
   --liturgical-dim: color-mix(in srgb, var(--liturgical-color) 55%, black);
   --border:    #2a2a2a;
 }

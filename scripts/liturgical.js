@@ -48,13 +48,16 @@
 
     /* Advent */
     var adv = advent1(y);
-    if (date >= adv && m === 11 && d <= 24) {
+    if (date >= adv && date <= new Date(y, 11, 24)) {
       if (days(date, adv) === 14 && dow === 0) return O;/* Gaudete Sunday */
       return P;
     }
 
     /* Lent: Ash Wednesday to Holy Saturday */
     if (de >= -46 && de <= -1) return P;
+
+    /* Paschaltide Sundays (de 8-48): white vestments */
+    if (de >= 8 && de <= 48 && dow === 0) return W;
 
     /* Septuagesima: violet Sundays, green ferias */
     if (de >= -63 && de <= -47) return dow === 0 ? P : G;
