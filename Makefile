@@ -1,4 +1,7 @@
 hooks:
 	sh scripts/install-hooks.sh
 
-.PHONY: hooks
+deploy:
+	sh scripts/deploy.sh
+
+.PHONY: hooks deploy
