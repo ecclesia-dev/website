@@ -20,7 +20,7 @@ body {
   color: var(--text);
   line-height: 1.75;
   font-size: 19px;
-  max-width: 700px;
+  max-width: 880px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -83,8 +83,8 @@ header nav a:hover {
 /* === Hero === */
 .hero {
   text-align: center;
-  padding: 3rem 0 3.5rem;
-  margin-bottom: 3rem;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -93,14 +93,6 @@ header nav a:hover {
   color: var(--liturgical-color);
   display: block;
   margin-bottom: 0.8rem;
-}
-
-.hero h1 {
-  font-size: 2.2rem;
-  font-weight: 600;
-  color: var(--liturgical-color);
-  margin-bottom: 0.8rem;
-  letter-spacing: 0.02em;
 }
 
 .tagline {
@@ -201,7 +193,6 @@ footer .motto {
 @media (max-width: 500px) {
   body { font-size: 17px; }
   header { flex-direction: column; gap: 0.8rem; }
-  .hero h1 { font-size: 1.8rem; }
   header nav { gap: 1rem; }
 }
 
@@ -213,7 +204,7 @@ footer .motto {
 
 /* === Article Page Layout === */
 .article-page {
-  max-width: 720px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 4rem 1.5rem 5rem;
 }
@@ -415,7 +406,7 @@ pre code {
 .article-related a:hover { color: var(--text); border-color: var(--text); text-decoration: none; }
 
 /* === Article Index Page === */
-.articles-index { max-width: 760px; }
+.articles-index { max-width: 940px; }
 
 .articles-intro {
   font-style: italic;
