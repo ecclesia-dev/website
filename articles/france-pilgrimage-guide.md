@@ -9,7 +9,7 @@ Five active shrines. Lourdes has the most robust indulgence structure; others ca
 ---
 
 ## Lourdes
-*Lourdes, Pyrenees. Site of 18 approved Marian apparitions to Bernadette Soubirous (1858).*
+*Lourdes, Pyrenees. Site of 18 approved Marian apparitions to Bernadette Soubirous (1858). Bernadette died 1879 as a Sister of Notre Dame de Nevers (Sisters of Charity and Christian Instruction of Nevers); her incorrupt body is at the Convent of Saint-Gildard in Nevers — a separate pilgrimage worth making.*
 
 **Plenary indulgence** granted to pilgrims who devoutly visit the Sanctuary of Our Lady of Lourdes and pray there. Special jubilee indulgences with additional conditions are published by the Apostolic Penitentiary for major anniversaries — check current publications before traveling. The *hospitaliers* at the information office can confirm current grant conditions.
 
