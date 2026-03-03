@@ -4,7 +4,7 @@
 
 Five active shrines. Lourdes has the most robust indulgence structure; others carry grants tied to their basilica status — confirm conditions locally before traveling.
 
-> To gain a plenary indulgence: sacramental confession (within 8 days), holy communion (same day), prayer for the Pope's intentions, and complete detachment from sin.
+> To gain a plenary indulgence: sacramental confession (within approximately 20 days), holy communion (same day), prayer for the Pope's intentions, and complete detachment from sin.
 
 ---
 

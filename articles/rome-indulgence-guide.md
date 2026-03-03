@@ -4,7 +4,7 @@
 
 The most concentrated treasury of indulgences in the Church. Come to work.
 
-> To gain a plenary indulgence: sacramental confession (within 8 days), holy communion (same day), prayer for the Pope's intentions, and complete detachment from sin.
+> To gain a plenary indulgence: sacramental confession (within approximately 20 days), holy communion (same day), prayer for the Pope's intentions, and complete detachment from sin.
 
 ---
 

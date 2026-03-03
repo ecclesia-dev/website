@@ -4,7 +4,7 @@
 
 The Franciscan Custody of the Holy Land holds specific indulgence grants for Latin-rite pilgrims at the major shrines. Confirm all grants with the Custodia di Terra Santa (custodia.org) before traveling.
 
-> To gain a plenary indulgence: sacramental confession (within 8 days), holy communion (same day), prayer for the Pope's intentions, and complete detachment from sin.
+> To gain a plenary indulgence: sacramental confession (within approximately 20 days), holy communion (same day), prayer for the Pope's intentions, and complete detachment from sin.
 
 ---
 

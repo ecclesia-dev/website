@@ -4,7 +4,7 @@
 
 Modern Turkey. Most sites are ruins, museums, or functioning mosques. Formal indulgence grants are sparse — the House of the Virgin Mary at Ephesus is the principal exception. Plan Mass and confession in Istanbul, İzmir, or Antakya before reaching the ruins.
 
-> To gain a plenary indulgence: sacramental confession (within 8 days), holy communion (same day), prayer for the Pope's intentions, and complete detachment from sin.
+> To gain a plenary indulgence: sacramental confession (within approximately 20 days), holy communion (same day), prayer for the Pope's intentions, and complete detachment from sin.
 
 ---
 
