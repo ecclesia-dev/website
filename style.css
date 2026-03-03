@@ -20,7 +20,7 @@ body {
   color: var(--text);
   line-height: 1.75;
   font-size: 19px;
-  max-width: 880px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -187,6 +187,31 @@ footer {
 
 footer .motto {
   margin-bottom: 0.3rem;
+}
+
+/* === Homepage Two-Column Grid === */
+@media (min-width: 860px) {
+  .homepage-grid {
+    display: grid;
+    grid-template-columns: 55fr 45fr;
+    gap: 0 4rem;
+    align-items: start;
+  }
+
+  .homepage-right {
+    border-left: 1px solid var(--border);
+    padding-left: 4rem;
+  }
+
+  .homepage-left section,
+  .homepage-right section {
+    margin-bottom: 3rem;
+  }
+
+  .homepage-left section:last-child,
+  .homepage-right section:last-child {
+    margin-bottom: 0;
+  }
 }
 
 /* === Responsive === */
