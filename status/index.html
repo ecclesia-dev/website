@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bot Status | Ecclesia Dev</title>
+  <meta name="description" content="Live status of Ecclesia Dev Nostr bots — Divinum Officium, Daily Aquinas, and Traditional Feast Days.">
+  <link rel="canonical" href="https://ecclesiadev.com/status/">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .status-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; }
+    .status-table th { background: var(--bg-code); text-align: left; padding: 0.6rem 1rem; font-weight: 600; color: var(--liturgical-color); border-bottom: 2px solid var(--liturgical-dim); }
+    .status-table td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .status-table tr:last-child td { border-bottom: none; }
+    .status-ok { color: #2E7D32; }
+    .status-warn { color: #C0392B; }
+    .status-unknown { color: var(--text-muted); }
+    .npub-section { margin-top: 3rem; }
+    .npub-section h2 { font-size: 1.1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--liturgical-color); margin-bottom: 1.2rem; }
+    .npub-list { list-style: none; padding: 0; }
+    .npub-list li { padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
+    .npub-list li:first-child { border-top: 1px solid var(--border); }
+    .npub-list strong { color: var(--text); }
+    .npub-list code { font-size: 0.75rem; word-break: break-all; }
+    .status-updated { font-size: 0.82rem; color: var(--text-muted); margin-top: 1.5rem; }
+    .office-hours { font-size: 0.85rem; color: var(--text-muted); }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.5rem 0; }
+    .table-wrap table { margin: 0; }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+
+  <nav aria-label="Site navigation">
+    <a class="logo" href="../index.html">&#10013; Ecclesia Dev</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../articles/index.html">Articles</a></li>
+      <li><a href="../tools/index.html">Tools</a></li>
+      <li><a href="../index.html#about">About</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+    <section class="articles-index">
+      <h1 class="section-title">Bot Status</h1>
+      <hr class="section-rule">
+      <p class="articles-intro">
+        Status of our Nostr bots. Updated every 15 minutes.
+      </p>
+
+      <div class="table-wrap">
+        <table class="status-table">
+          <thead>
+            <tr>
+              <th>Bot</th>
+              <th>Schedule</th>
+              <th>Last Post</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <strong>Divinum Officium</strong><br>
+                <span class="office-hours">Lauds, Prime, Terce, Sext, None, Vespers, Compline</span>
+              </td>
+              <td>7 canonical hours daily</td>
+              <td id="office-last" class="status-unknown">Loading...</td>
+              <td id="office-status" class="status-unknown">--</td>
+            </tr>
+            <tr>
+              <td><strong>Daily Aquinas</strong></td>
+              <td>Daily at 7:00 AM</td>
+              <td id="aquinas-last" class="status-unknown">Loading...</td>
+              <td id="aquinas-status" class="status-unknown">--</td>
+            </tr>
+            <tr>
+              <td><strong>Traditional Feast Days</strong></td>
+              <td>Daily at 6:30 AM</td>
+              <td id="feast-last" class="status-unknown">Loading...</td>
+              <td id="feast-status" class="status-unknown">--</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="npub-section">
+        <h2>Follow on Nostr</h2>
+        <ul class="npub-list">
+          <li>
+            <strong>Divinum Officium</strong><br>
+            <code>npub1dq8686aa80n4pd8newlhuueagu66lhd94fann0j5e3t8af6f5gpq4p2d2u</code>
+          </li>
+          <li>
+            <strong>Daily Aquinas</strong><br>
+            <code>npub1r7ytly28nsp6tkm88p7fp238uy7mshkfuw40gq8lnkujcaq5ctzs6jqqsy</code>
+          </li>
+          <li>
+            <strong>Traditional Feast Days</strong><br>
+            <code>npub1426dc34pjad2cw9qsfjvq3a6dyvvelyh6h20uulksxc78rhum79qtxtkc0</code>
+          </li>
+        </ul>
+      </div>
+
+      <p class="status-updated" id="status-updated"></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="ichthys">&#9767;</div>
+    <div class="motto">Ad maiorem Dei gloriam</div>
+    <div class="ichthys" style="font-size:1.4rem; margin-top:0.5rem;">&#0921;&#0935;&#0920;&#0933;&#0931;</div>
+    <p class="copy">&copy; 2026 Ecclesia Dev</p>
+  </footer>
+
+  <script src="../scripts/liturgical.js"></script>
+  <script>
+    (function () {
+      var STATUS_URL = '../status.json';
+      var MAX_AGE_MS = {
+        office: 4 * 60 * 60 * 1000,
+        aquinas: 26 * 60 * 60 * 1000,
+        feast: 26 * 60 * 60 * 1000
+      };
+
+      function formatTime(iso) {
+        if (!iso) return null;
+        var d = new Date(iso);
+        if (isNaN(d.getTime())) return null;
+        return d.toLocaleString('en-US', {
+          month: 'short', day: 'numeric',
+          hour: 'numeric', minute: '2-digit',
+          hour12: true
+        });
+      }
+
+      function setCell(id, text, cls) {
+        var el = document.getElementById(id);
+        if (el) { el.textContent = text; el.className = cls; }
+      }
+
+      function updateBot(prefix, lastPost, maxAge) {
+        if (!lastPost) {
+          setCell(prefix + '-last', 'No data', 'status-unknown');
+          setCell(prefix + '-status', '--', 'status-unknown');
+          return;
+        }
+        var formatted = formatTime(lastPost);
+        if (!formatted) {
+          setCell(prefix + '-last', 'Invalid', 'status-warn');
+          setCell(prefix + '-status', '\u26a0\ufe0f', 'status-warn');
+          return;
+        }
+        var age = Date.now() - new Date(lastPost).getTime();
+        if (age <= maxAge) {
+          setCell(prefix + '-last', formatted, '');
+          setCell(prefix + '-status', '\u2705', 'status-ok');
+        } else {
+          setCell(prefix + '-last', formatted, '');
+          setCell(prefix + '-status', '\u26a0\ufe0f', 'status-warn');
+        }
+      }
+
+      fetch(STATUS_URL)
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          updateBot('office', data.office, MAX_AGE_MS.office);
+          updateBot('aquinas', data.aquinas, MAX_AGE_MS.aquinas);
+          updateBot('feast', data.feast, MAX_AGE_MS.feast);
+
+          if (data.updated) {
+            var el = document.getElementById('status-updated');
+            if (el) el.textContent = 'Last checked: ' + formatTime(data.updated);
+          }
+        })
+        .catch(function () {
+          ['office', 'aquinas', 'feast'].forEach(function (p) {
+            setCell(p + '-last', 'Unavailable', 'status-unknown');
+            setCell(p + '-status', '--', 'status-unknown');
+          });
+        });
+    })();
+  </script>
+</body>
+</html>
