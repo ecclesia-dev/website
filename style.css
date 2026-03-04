@@ -620,3 +620,79 @@ nav .logo:hover { text-decoration: none; opacity: 0.8; }
   color: var(--text-muted);
   opacity: 0.6;
 }
+
+/* === Debate Pages === */
+.debate-nav {
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  color: var(--text-muted);
+}
+.debate-nav a {
+  color: var(--liturgical-color);
+  border-bottom: 1px solid var(--liturgical-dim);
+}
+.debate-nav a:hover { color: var(--text); border-color: var(--text); text-decoration: none; }
+
+.debate-page .speaker {
+  margin: 2.5rem 0 1rem;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.debate-page .calvin {
+  border-left: 4px solid #5a7fa8;
+  background: rgba(90, 127, 168, 0.06);
+  color: #8ab4e0;
+}
+
+.debate-page .bellarmine {
+  border-left: 4px solid #a85a5a;
+  background: rgba(168, 90, 90, 0.06);
+  color: #e08a8a;
+}
+
+.debate-page .exchange-heading {
+  font-size: 1.4rem;
+  color: var(--liturgical-color);
+  margin: 3rem 0 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.debate-page .exchange-heading:first-of-type {
+  margin-top: 0;
+}
+
+/* === Debate Series Index === */
+.debate-card {
+  display: block;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+.debate-card:first-of-type { border-top: 1px solid var(--border); }
+.debate-card:hover { text-decoration: none; }
+.debate-card:hover h2 { color: var(--liturgical-color); }
+
+.debate-card h2 {
+  font-size: 1.3rem;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+.debate-card .debate-card-sub {
+  font-size: 0.92rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+.debate-card p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.debate-card .article-read {
+  font-size: 0.88rem;
+  color: var(--liturgical-color);
+}
