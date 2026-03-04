@@ -8,7 +8,7 @@ Our Lord instituted this sacrament on Easter Sunday, when He breathed on the Apo
 
 ## The Five Acts of the Penitent
 
-The Council of Trent, in its fourteenth session (1551), defined the structure of the sacrament with precision. The penitent's part consists of five acts, each of which is necessary for a valid and fruitful confession.
+The Council of Trent, in its fourteenth session (1551), defined three acts of the penitent as the *quasi materia* of the sacrament: contrition, confession, and satisfaction. Traditional catechesis — the Baltimore Catechism, the Catechism of St. Pius X, and countless confessional manuals — expands these into five practical steps, adding the examination of conscience (which is preparatory) and the firm purpose of amendment (which is integral to contrition). These five steps, each necessary for a valid and fruitful confession, are as follows.
 
 ### 1. Examination of Conscience
 
