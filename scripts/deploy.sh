@@ -22,6 +22,7 @@ rsync -avz --delete \
   --exclude='README.md' \
   --exclude='LICENSE' \
   --exclude='.gitignore' \
+  --exclude='status.json' \
   -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=yes" \
   "$LOCAL_DIR" \
   "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR"
