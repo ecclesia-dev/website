@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>catechism — Baltimore Catechism No. 3 CLI | Ecclesia Dev</title>
+  <meta name="description" content="The Baltimore Catechism No. 3 in your terminal. Look up any question by number or search by topic. The full text, offline.">
+  <link rel="canonical" href="https://ecclesiadev.com/tools/catechism.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+
+  <nav aria-label="Site navigation">
+    <a class="logo" href="../index.html">&#10013; Ecclesia Dev</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../articles/index.html">Articles</a></li>
+      <li><a href="index.html">Tools</a></li>
+      <li><a href="../index.html#about">About</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+  <article class="article-page">
+
+    <div class="article-back"><a href="index.html">&#8592; All Tools</a></div>
+
+    <header class="article-header">
+      <h1>catechism — Baltimore Catechism No. 3 CLI</h1>
+    </header>
+    <p class="article-lead">
+      The Baltimore Catechism No. 3 in your terminal. Look up any question by number, browse by lesson, or search by topic. The full text of all 421 questions and answers.
+    </p>
+
+    <hr class="article-rule">
+
+    <section>
+      <h2>What It Does</h2>
+      <p>
+        <code>catechism</code> gives you instant access to every question and answer in the Baltimore Catechism No. 3 — the standard catechism used to teach the Catholic faith in America for over a century. Look up any question by number. Search for topics like "grace" or "Eucharist." Browse by lesson.
+      </p>
+      <p>
+        Useful for parents teaching children, for converts studying the faith, and for anyone who wants the clear, precise language of the Baltimore Catechism always at hand.
+      </p>
+    </section>
+
+    <section>
+      <h2>Example</h2>
+<pre><code>$ catechism 150
+
+  Q. 150. What is the Sacrament of Penance?
+
+  A. The Sacrament of Penance is the sacrament by
+  which sins committed after Baptism are forgiven
+  through the absolution of the priest.
+
+  — Baltimore Catechism No. 3, Lesson 19
+
+$ catechism search "grace"
+
+  Q. 108. What is grace?
+  Q. 109. How many kinds of grace are there?
+  Q. 110. What is sanctifying grace?
+  Q. 111. What is actual grace?
+  Q. 112. Is grace necessary for salvation?
+  ... (14 results)</code></pre>
+    </section>
+
+    <section>
+      <h2>Installation</h2>
+<pre><code>brew install ecclesia-dev/tap/catechism   # coming soon</code></pre>
+      <p>Homebrew tap not yet published. In the meantime, build from source — see the <a href="https://github.com/ecclesia-dev/catechism" target="_blank" rel="noopener">GitHub repository</a>.</p>
+    </section>
+
+    <section>
+      <h2>Usage</h2>
+<pre><code>catechism 1                # question 1
+catechism 150              # question 150
+catechism lesson 19        # all questions in Lesson 19
+catechism search "baptism" # search by keyword
+catechism lessons          # list all 37 lessons
+catechism random           # a random question</code></pre>
+    </section>
+
+    <section>
+      <h2>Source</h2>
+      <p>
+        Free and open source.
+        <a href="https://github.com/ecclesia-dev/catechism" target="_blank" rel="noopener">github.com/ecclesia-dev/catechism</a>
+      </p>
+    </section>
+
+  </article>
+  </main>
+
+  <footer>
+    <div class="ichthys">&#9767;</div>
+    <div class="motto">Ad maiorem Dei gloriam</div>
+    <p class="copy">&copy; 2026 Ecclesia Dev</p>
+  </footer>
+
+  <script src="../scripts/liturgical.js"></script>
+</body>
+</html>

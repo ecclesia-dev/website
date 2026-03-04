@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>opus — Traditional Breviary CLI | Ecclesia Dev</title>
+  <meta name="description" content="Pray the hours of the Divine Office from your terminal. The traditional Roman Breviary — Matins, Lauds, Prime, and all canonical hours.">
+  <link rel="canonical" href="https://ecclesiadev.com/tools/opus.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+
+  <nav aria-label="Site navigation">
+    <a class="logo" href="../index.html">&#10013; Ecclesia Dev</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../articles/index.html">Articles</a></li>
+      <li><a href="index.html">Tools</a></li>
+      <li><a href="../index.html#about">About</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+  <article class="article-page">
+
+    <div class="article-back"><a href="index.html">&#8592; All Tools</a></div>
+
+    <header class="article-header">
+      <h1>opus — Traditional Breviary CLI</h1>
+    </header>
+    <p class="article-lead">
+      The hours of the Divine Office in your terminal. Pray the traditional Roman Breviary — Matins, Lauds, Prime, Terce, Sext, None, Vespers, and Compline — according to the 1962 rubrics.
+    </p>
+
+    <hr class="article-rule">
+
+    <section>
+      <h2>What It Does</h2>
+      <p>
+        <code>opus</code> generates the full text of each canonical hour for the current day according to the 1962 Roman Breviary. It assembles the correct psalms, antiphons, readings, hymns, and collects based on the liturgical calendar — handling feasts, ferias, octaves, and commemorations automatically.
+      </p>
+      <p>
+        Built for priests, religious, and laity who pray the traditional Office. Everything is computed locally. No internet connection needed, no accounts, no subscriptions.
+      </p>
+    </section>
+
+    <section>
+      <h2>Example</h2>
+<pre><code>$ opus lauds
+
+  ═══════════════════════════════════════
+  LAUDS — Monday in the 1st Week of Lent
+  March 3, 2026
+  ═══════════════════════════════════════
+
+  ℣ Deus, in adiutorium meum intende.
+  ℟ Domine, ad adiuvandum me festina.
+
+  Gloria Patri, et Filio, et Spiritui Sancto.
+  Sicut erat in principio, et nunc, et semper,
+  et in saecula saeculorum. Amen.
+
+  Psalmus 50 — Miserere
+  ─────────────────────
+  Miserere mei, Deus, secundum magnam
+  misericordiam tuam.
+  Et secundum multitudinem miserationum tuarum,
+  dele iniquitatem meam ...</code></pre>
+    </section>
+
+    <section>
+      <h2>Installation</h2>
+<pre><code>brew install ecclesia-dev/tap/opus    # coming soon</code></pre>
+      <p>Homebrew tap not yet published. In the meantime, build from source — see the <a href="https://github.com/ecclesia-dev/opus" target="_blank" rel="noopener">GitHub repository</a>.</p>
+    </section>
+
+    <section>
+      <h2>Usage</h2>
+<pre><code>opus                   # show today's Office overview
+opus matins            # pray Matins
+opus lauds             # pray Lauds
+opus prime             # pray Prime
+opus vespers           # pray Vespers
+opus compline          # pray Compline
+opus --date 2026-12-25 # Office for a specific date
+opus --latin           # Latin text (default)
+opus --english         # English translation</code></pre>
+    </section>
+
+    <section>
+      <h2>Source</h2>
+      <p>
+        Free and open source.
+        <a href="https://github.com/ecclesia-dev/opus" target="_blank" rel="noopener">github.com/ecclesia-dev/opus</a>
+      </p>
+    </section>
+
+  </article>
+  </main>
+
+  <footer>
+    <div class="ichthys">&#9767;</div>
+    <div class="motto">Ad maiorem Dei gloriam</div>
+    <p class="copy">&copy; 2026 Ecclesia Dev</p>
+  </footer>
+
+  <script src="../scripts/liturgical.js"></script>
+</body>
+</html>

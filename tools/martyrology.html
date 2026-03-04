@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>martyrology — Roman Martyrology CLI | Ecclesia Dev</title>
+  <meta name="description" content="The Roman Martyrology in your terminal. Today's saints, martyrs, and confessors as read at Prime in the traditional Divine Office.">
+  <link rel="canonical" href="https://ecclesiadev.com/tools/martyrology.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+
+  <nav aria-label="Site navigation">
+    <a class="logo" href="../index.html">&#10013; Ecclesia Dev</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../articles/index.html">Articles</a></li>
+      <li><a href="index.html">Tools</a></li>
+      <li><a href="../index.html#about">About</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+  <article class="article-page">
+
+    <div class="article-back"><a href="index.html">&#8592; All Tools</a></div>
+
+    <header class="article-header">
+      <h1>martyrology — Roman Martyrology CLI</h1>
+    </header>
+    <p class="article-lead">
+      The Roman Martyrology in your terminal. The daily listing of saints, martyrs, and confessors as read at the hour of Prime in the traditional Divine Office.
+    </p>
+
+    <hr class="article-rule">
+
+    <section>
+      <h2>What It Does</h2>
+      <p>
+        <code>martyrology</code> displays the entry from the <em>Martyrologium Romanum</em> for any day of the year. Each entry records the saints and blessed commemorated on that date — their names, the place and manner of their death or glory, and a brief account of their witness. This is the same text read aloud daily in choir at Prime.
+      </p>
+      <p>
+        A daily tool for religious communities, for private devotion, and for anyone who wants to know which saints the Church honors today. Works entirely offline.
+      </p>
+    </section>
+
+    <section>
+      <h2>Example</h2>
+<pre><code>$ martyrology
+
+  March 3
+
+  At Rome, the holy martyrs Marinus, a soldier, and
+  Asterius, a senator. In the persecution of Gallienus,
+  Marinus was denounced by a fellow soldier as a
+  Christian, and being firm in the confession of the
+  faith, was beheaded. Asterius, a man of rank, took
+  up the body of the martyr upon his shoulders and
+  reverently buried it, and was himself also put to
+  death for the faith.
+
+  In Bamberg, the birthday of blessed Cunegundis,
+  Empress, wife of St. Henry, who, being renowned
+  for miracles, and having preserved her virginity
+  by the consent of her husband, died a holy death
+  in the monastery of Kaufungen, in Hesse.
+
+  And elsewhere, many other holy martyrs, confessors,
+  and holy virgins.
+
+  ℣ Thanks be to God.
+
+  — Martyrologium Romanum</code></pre>
+    </section>
+
+    <section>
+      <h2>Installation</h2>
+<pre><code>brew install ecclesia-dev/tap/martyrology   # coming soon</code></pre>
+      <p>Homebrew tap not yet published. In the meantime, build from source — see the <a href="https://github.com/ecclesia-dev/martyrology" target="_blank" rel="noopener">GitHub repository</a>.</p>
+    </section>
+
+    <section>
+      <h2>Usage</h2>
+<pre><code>martyrology                    # today's entry
+martyrology --date 2026-12-25  # entry for a specific date
+martyrology --month march      # all entries for March
+martyrology search "Augustine" # find a saint by name
+martyrology --tomorrow         # tomorrow's entry (for Prime)</code></pre>
+    </section>
+
+    <section>
+      <h2>Source</h2>
+      <p>
+        Free and open source.
+        <a href="https://github.com/ecclesia-dev/martyrology" target="_blank" rel="noopener">github.com/ecclesia-dev/martyrology</a>
+      </p>
+    </section>
+
+  </article>
+  </main>
+
+  <footer>
+    <div class="ichthys">&#9767;</div>
+    <div class="motto">Ad maiorem Dei gloriam</div>
+    <p class="copy">&copy; 2026 Ecclesia Dev</p>
+  </footer>
+
+  <script src="../scripts/liturgical.js"></script>
+</body>
+</html>

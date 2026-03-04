@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>summa — Summa Theologica CLI | Ecclesia Dev</title>
+  <meta name="description" content="The complete Summa Theologica of St. Thomas Aquinas in your terminal. Look up any question and article by reference.">
+  <link rel="canonical" href="https://ecclesiadev.com/tools/summa.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+
+  <nav aria-label="Site navigation">
+    <a class="logo" href="../index.html">&#10013; Ecclesia Dev</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../articles/index.html">Articles</a></li>
+      <li><a href="index.html">Tools</a></li>
+      <li><a href="../index.html#about">About</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+  <article class="article-page">
+
+    <div class="article-back"><a href="index.html">&#8592; All Tools</a></div>
+
+    <header class="article-header">
+      <h1>summa — Summa Theologica CLI</h1>
+    </header>
+    <p class="article-lead">
+      The complete Summa Theologica of St. Thomas Aquinas in your terminal. Look up any part, question, and article by standard reference notation.
+    </p>
+
+    <hr class="article-rule">
+
+    <section>
+      <h2>What It Does</h2>
+      <p>
+        <code>summa</code> gives you instant access to the full text of the Summa Theologica — all three parts, all 512 questions, all 2,669 articles. Look up any article by its standard citation (e.g., <code>I q2 a3</code>). Read the objections, the <em>sed contra</em>, the <em>respondeo</em>, and the replies. Search across the entire work by keyword.
+      </p>
+      <p>
+        Built for students, seminarians, and anyone studying the Angelic Doctor. Works offline, outputs clean text, and respects the traditional structure of the Summa.
+      </p>
+    </section>
+
+    <section>
+      <h2>Example</h2>
+<pre><code>$ summa I q2 a3
+
+  FIRST PART — Question 2, Article 3
+  Whether God exists?
+
+  Objection 1. It seems that God does not exist;
+  because if one of two contraries be infinite,
+  the other would be altogether destroyed. But the
+  word "God" means that He is infinite goodness.
+  If, therefore, God existed, there would be no evil
+  discoverable; but there is evil in the world.
+  Therefore God does not exist.
+
+  On the contrary, It is said in the person of God:
+  "I am Who am" (Exodus 3:14).
+
+  I answer that, The existence of God can be proved
+  in five ways ...
+
+  — Summa Theologica, St. Thomas Aquinas</code></pre>
+    </section>
+
+    <section>
+      <h2>Installation</h2>
+<pre><code>brew install ecclesia-dev/tap/summa   # coming soon</code></pre>
+      <p>Homebrew tap not yet published. In the meantime, build from source — see the <a href="https://github.com/ecclesia-dev/summa" target="_blank" rel="noopener">GitHub repository</a>.</p>
+    </section>
+
+    <section>
+      <h2>Usage</h2>
+<pre><code>summa I q2 a3             # First Part, Question 2, Article 3
+summa I-II q90 a1         # Prima Secundae, Q. 90, Art. 1
+summa II-II q23 a1        # Secunda Secundae, Q. 23, Art. 1
+summa III q75 a1          # Third Part, Q. 75, Art. 1
+summa search "natural law"  # search across all parts
+summa outline I           # list all questions in First Part</code></pre>
+    </section>
+
+    <section>
+      <h2>Source</h2>
+      <p>
+        Free and open source.
+        <a href="https://github.com/ecclesia-dev/summa" target="_blank" rel="noopener">github.com/ecclesia-dev/summa</a>
+      </p>
+    </section>
+
+  </article>
+  </main>
+
+  <footer>
+    <div class="ichthys">&#9767;</div>
+    <div class="motto">Ad maiorem Dei gloriam</div>
+    <p class="copy">&copy; 2026 Ecclesia Dev</p>
+  </footer>
+
+  <script src="../scripts/liturgical.js"></script>
+</body>
+</html>

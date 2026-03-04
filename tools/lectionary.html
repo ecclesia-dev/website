@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lectionary — Traditional Lectionary CLI | Ecclesia Dev</title>
+  <meta name="description" content="The traditional Roman Lectionary in your terminal. Epistle and Gospel readings for any day in the 1962 liturgical calendar.">
+  <link rel="canonical" href="https://ecclesiadev.com/tools/lectionary.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+
+  <nav aria-label="Site navigation">
+    <a class="logo" href="../index.html">&#10013; Ecclesia Dev</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../articles/index.html">Articles</a></li>
+      <li><a href="index.html">Tools</a></li>
+      <li><a href="../index.html#about">About</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+  <article class="article-page">
+
+    <div class="article-back"><a href="index.html">&#8592; All Tools</a></div>
+
+    <header class="article-header">
+      <h1>lectionary — Traditional Lectionary CLI</h1>
+    </header>
+    <p class="article-lead">
+      The traditional Roman Lectionary in your terminal. Epistle and Gospel readings for any day in the 1962 liturgical calendar, with the full Douay-Rheims text.
+    </p>
+
+    <hr class="article-rule">
+
+    <section>
+      <h2>What It Does</h2>
+      <p>
+        <code>lectionary</code> looks up the proper Epistle and Gospel readings assigned to any day in the 1962 Roman calendar and displays the full text from the Douay-Rheims Bible. It handles Sundays, ferias, feast days, vigils, and ember days — automatically resolving which readings apply based on the liturgical calendar.
+      </p>
+      <p>
+        Useful for preparing to assist at Mass, for spiritual reading, or for following the Church's one-year cycle of Scripture. Everything runs locally and offline.
+      </p>
+    </section>
+
+    <section>
+      <h2>Example</h2>
+<pre><code>$ lectionary
+
+  Monday in the First Week of Lent
+  March 3, 2026
+
+  Epistle: IV Kings 5:1-15
+  ────────────────────────
+  Naaman, general of the army of the king of Syria,
+  was a great man with his master, and honourable:
+  for by him the Lord gave deliverance to Syria: and
+  he was a valiant man and rich, but a leper ...
+
+  Gospel: Luke 4:23-30
+  ─────────────────────
+  At that time: Jesus said to the Pharisees:
+  Doubtless you will say to Me this similitude:
+  Physician, heal thyself: as great things as we
+  have heard done in Capharnaum, do also here in
+  Thy own country ...</code></pre>
+    </section>
+
+    <section>
+      <h2>Installation</h2>
+<pre><code>brew install ecclesia-dev/tap/lectionary   # coming soon</code></pre>
+      <p>Homebrew tap not yet published. In the meantime, build from source — see the <a href="https://github.com/ecclesia-dev/lectionary" target="_blank" rel="noopener">GitHub repository</a>.</p>
+    </section>
+
+    <section>
+      <h2>Usage</h2>
+<pre><code>lectionary                     # today's readings
+lectionary --date 2026-12-25   # readings for a specific date
+lectionary --epistle           # Epistle only
+lectionary --gospel            # Gospel only
+lectionary --sunday-next       # next Sunday's readings
+lectionary --week              # this week's readings</code></pre>
+    </section>
+
+    <section>
+      <h2>Source</h2>
+      <p>
+        Free and open source.
+        <a href="https://github.com/ecclesia-dev/lectionary" target="_blank" rel="noopener">github.com/ecclesia-dev/lectionary</a>
+      </p>
+    </section>
+
+  </article>
+  </main>
+
+  <footer>
+    <div class="ichthys">&#9767;</div>
+    <div class="motto">Ad maiorem Dei gloriam</div>
+    <p class="copy">&copy; 2026 Ecclesia Dev</p>
+  </footer>
+
+  <script src="../scripts/liturgical.js"></script>
+</body>
+</html>

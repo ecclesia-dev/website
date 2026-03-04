@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>drb — Douay-Rheims Bible CLI | Ecclesia Dev</title>
+  <meta name="description" content="The complete Douay-Rheims Bible in your terminal. Read, search, and cross-reference Scripture — no internet required.">
+  <link rel="canonical" href="https://ecclesiadev.com/tools/drb.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+
+  <nav aria-label="Site navigation">
+    <a class="logo" href="../index.html">&#10013; Ecclesia Dev</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../articles/index.html">Articles</a></li>
+      <li><a href="index.html">Tools</a></li>
+      <li><a href="../index.html#about">About</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+  <article class="article-page">
+
+    <div class="article-back"><a href="index.html">&#8592; All Tools</a></div>
+
+    <header class="article-header">
+      <h1>drb — Douay-Rheims Bible CLI</h1>
+    </header>
+    <p class="article-lead">
+      The complete Douay-Rheims Bible in your terminal. Read any book, chapter, and verse. Search across the entire text. No internet required.
+    </p>
+
+    <hr class="article-rule">
+
+    <section>
+      <h2>What It Does</h2>
+      <p>
+        <code>drb</code> gives you the full text of the Douay-Rheims Bible (1899 Challoner revision) as a fast, offline command-line tool. Look up any verse by book, chapter, and verse reference. Search across all 73 books for any word or phrase. Output is clean and readable in any terminal.
+      </p>
+      <p>
+        The Douay-Rheims is the standard English translation of the Latin Vulgate, used by English-speaking Catholics for over four centuries. This tool puts the entire text at your fingertips without leaving the terminal.
+      </p>
+    </section>
+
+    <section>
+      <h2>Example</h2>
+<pre><code>$ drb john 1:1-5
+
+  The Gospel According to St. John
+  Chapter 1, Verses 1–5
+
+  [1] In the beginning was the Word, and the Word was
+  with God, and the Word was God.
+  [2] The same was in the beginning with God.
+  [3] All things were made by him: and without him was
+  made nothing that was made.
+  [4] In him was life, and the life was the light of men.
+  [5] And the light shineth in darkness, and the darkness
+  did not comprehend it.
+
+  — Douay-Rheims Bible (1899 Challoner revision)</code></pre>
+    </section>
+
+    <section>
+      <h2>Installation</h2>
+<pre><code>brew install ecclesia-dev/tap/drb     # coming soon</code></pre>
+      <p>Homebrew tap not yet published. In the meantime, build from source — see the <a href="https://github.com/ecclesia-dev/drb" target="_blank" rel="noopener">GitHub repository</a>.</p>
+    </section>
+
+    <section>
+      <h2>Usage</h2>
+<pre><code>drb genesis 1              # read Genesis chapter 1
+drb john 3:16              # single verse
+drb rom 8:28-39            # verse range
+drb search "grace"         # search all books
+drb search "light" --book john   # search within a book
+drb books                  # list all 73 books</code></pre>
+    </section>
+
+    <section>
+      <h2>Source</h2>
+      <p>
+        Free and open source.
+        <a href="https://github.com/ecclesia-dev/drb" target="_blank" rel="noopener">github.com/ecclesia-dev/drb</a>
+      </p>
+    </section>
+
+  </article>
+  </main>
+
+  <footer>
+    <div class="ichthys">&#9767;</div>
+    <div class="motto">Ad maiorem Dei gloriam</div>
+    <p class="copy">&copy; 2026 Ecclesia Dev</p>
+  </footer>
+
+  <script src="../scripts/liturgical.js"></script>
+</body>
+</html>

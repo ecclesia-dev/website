@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>pray — Rosary CLI | Ecclesia Dev</title>
+  <meta name="description" content="Pray the traditional 15-decade Rosary from the command line. Guided mysteries, meditations, and all the prayers — step by step.">
+  <link rel="canonical" href="https://ecclesiadev.com/tools/pray.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+
+  <nav aria-label="Site navigation">
+    <a class="logo" href="../index.html">&#10013; Ecclesia Dev</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../articles/index.html">Articles</a></li>
+      <li><a href="index.html">Tools</a></li>
+      <li><a href="../index.html#about">About</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+  <article class="article-page">
+
+    <div class="article-back"><a href="index.html">&#8592; All Tools</a></div>
+
+    <header class="article-header">
+      <h1>pray — Rosary CLI</h1>
+    </header>
+    <p class="article-lead">
+      Pray the traditional 15-decade Rosary from the command line. The correct mysteries for the day, all the prayers, step by step. No distractions.
+    </p>
+
+    <hr class="article-rule">
+
+    <section>
+      <h2>What It Does</h2>
+      <p>
+        <code>pray</code> guides you through the Holy Rosary in your terminal. It selects the correct set of mysteries for the day of the week (Joyful, Sorrowful, or Glorious — the traditional 15-decade schema), displays each prayer, and advances at your pace. Each mystery includes a brief meditation.
+      </p>
+      <p>
+        Simple, distraction-free, and works offline. For Catholics who want to pray the Rosary without opening a browser or an app full of ads.
+      </p>
+    </section>
+
+    <section>
+      <h2>Example</h2>
+<pre><code>$ pray rosary
+
+  ✠ The Holy Rosary — Sorrowful Mysteries ✠
+  (Monday in Lent)
+
+  ℣ In the name of the Father, and of the Son,
+    and of the Holy Ghost. Amen.
+
+  The Apostles' Creed
+  ───────────────────
+  I believe in God, the Father Almighty, Creator
+  of heaven and earth; and in Jesus Christ, His
+  only Son, our Lord; Who was conceived by the
+  Holy Ghost, born of the Virgin Mary ...
+
+  [Press Enter to continue]
+
+  The First Sorrowful Mystery: The Agony in the Garden
+  ────────────────────────────────────────────────────
+  Jesus, knowing all that was to come upon Him,
+  went forth and fell upon His face, praying:
+  "Father, if it be possible, let this chalice
+  pass from Me; yet not My will, but Thine be done."
+
+  Our Father, who art in heaven ...</code></pre>
+    </section>
+
+    <section>
+      <h2>Installation</h2>
+<pre><code>brew install ecclesia-dev/tap/pray    # coming soon</code></pre>
+      <p>Homebrew tap not yet published. In the meantime, build from source — see the <a href="https://github.com/ecclesia-dev/pray" target="_blank" rel="noopener">GitHub repository</a>.</p>
+    </section>
+
+    <section>
+      <h2>Usage</h2>
+<pre><code>pray rosary              # today's mysteries
+pray rosary --joyful     # Joyful mysteries
+pray rosary --sorrowful  # Sorrowful mysteries
+pray rosary --glorious   # Glorious mysteries
+pray angelus             # the Angelus
+pray memorare            # the Memorare
+pray regina              # Regina Caeli (Eastertide)</code></pre>
+    </section>
+
+    <section>
+      <h2>Source</h2>
+      <p>
+        Free and open source.
+        <a href="https://github.com/ecclesia-dev/pray" target="_blank" rel="noopener">github.com/ecclesia-dev/pray</a>
+      </p>
+    </section>
+
+  </article>
+  </main>
+
+  <footer>
+    <div class="ichthys">&#9767;</div>
+    <div class="motto">Ad maiorem Dei gloriam</div>
+    <p class="copy">&copy; 2026 Ecclesia Dev</p>
+  </footer>
+
+  <script src="../scripts/liturgical.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ordo — Liturgical Ordo CLI | Ecclesia Dev</title>
+  <meta name="description" content="The 1962 liturgical Ordo in your terminal. Today's feast, class, liturgical color, proper readings, and notes for the traditional Mass.">
+  <link rel="canonical" href="https://ecclesiadev.com/tools/ordo.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-nav">Skip to content</a>
+
+  <nav aria-label="Site navigation">
+    <a class="logo" href="../index.html">&#10013; Ecclesia Dev</a>
+    <ul>
+      <li><a href="../index.html#projects">Projects</a></li>
+      <li><a href="../articles/index.html">Articles</a></li>
+      <li><a href="index.html">Tools</a></li>
+      <li><a href="../index.html#about">About</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+  <article class="article-page">
+
+    <div class="article-back"><a href="index.html">&#8592; All Tools</a></div>
+
+    <header class="article-header">
+      <h1>ordo — Liturgical Ordo CLI</h1>
+    </header>
+    <p class="article-lead">
+      The 1962 liturgical Ordo in your terminal. See today's feast, class, liturgical color, proper readings, and rubrical notes for the traditional Mass and Office.
+    </p>
+
+    <hr class="article-rule">
+
+    <section>
+      <h2>What It Does</h2>
+      <p>
+        <code>ordo</code> computes the full liturgical day according to the 1962 Roman calendar. It tells you the feast or feria, its class (I–IV), the liturgical color, the proper Mass readings, commemorations, and any special rubrical notes. It handles all the complexities of the traditional calendar — occurrence, concurrence, transfers, and Lenten adjustments.
+      </p>
+      <p>
+        Built for priests preparing Mass, servers setting up the altar, and laity following the liturgical year. All computation is local. No internet needed.
+      </p>
+    </section>
+
+    <section>
+      <h2>Example</h2>
+<pre><code>$ ordo
+
+  Monday, March 3, 2026
+  Feria of Lent — Class III (violet)
+
+  Mass:     Ferial — Proper readings
+  Epistle:  IV Kings 5:1-15
+  Gospel:   Luke 4:23-30
+
+  Vespers:  of the feria
+  Compline: ordinary
+
+  Fast &amp; abstinence: Lenten fast
+
+$ ordo --date 2026-12-25
+
+  Thursday, December 25, 2026
+  THE NATIVITY OF OUR LORD JESUS CHRIST — Class I (white)
+
+  Mass:     Three Masses permitted
+  1st Mass: Midnight — Isaias 9:2-7 / Luke 2:1-14
+  2nd Mass: Dawn — Titus 3:4-7 / Luke 2:15-20
+  3rd Mass: Day — Hebrews 1:1-12 / John 1:1-14</code></pre>
+    </section>
+
+    <section>
+      <h2>Installation</h2>
+<pre><code>brew install ecclesia-dev/tap/ordo    # coming soon</code></pre>
+      <p>Homebrew tap not yet published. In the meantime, build from source — see the <a href="https://github.com/ecclesia-dev/ordo" target="_blank" rel="noopener">GitHub repository</a>.</p>
+    </section>
+
+    <section>
+      <h2>Usage</h2>
+<pre><code>ordo                       # today's Ordo
+ordo --date 2026-12-25     # Ordo for a specific date
+ordo --week                # this week's calendar
+ordo --month               # this month's calendar
+ordo --year 2026           # full year overview</code></pre>
+    </section>
+
+    <section>
+      <h2>Source</h2>
+      <p>
+        Free and open source.
+        <a href="https://github.com/ecclesia-dev/ordo" target="_blank" rel="noopener">github.com/ecclesia-dev/ordo</a>
+      </p>
+    </section>
+
+  </article>
+  </main>
+
+  <footer>
+    <div class="ichthys">&#9767;</div>
+    <div class="motto">Ad maiorem Dei gloriam</div>
+    <p class="copy">&copy; 2026 Ecclesia Dev</p>
+  </footer>
+
+  <script src="../scripts/liturgical.js"></script>
+</body>
+</html>
