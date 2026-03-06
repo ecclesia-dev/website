@@ -1,0 +1,167 @@
+/* === Lapide Commentary Browser === */
+
+.lapide-page .article-header h1 {
+  font-size: 2rem;
+}
+
+.lapide-toc {
+  background: var(--bg-code);
+  padding: 1.2rem 1.6rem;
+  margin-bottom: 2.5rem;
+  border-left: 3px solid var(--liturgical-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0;
+  align-items: baseline;
+}
+
+.lapide-toc .toc-title {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-right: 1rem;
+  flex: 0 0 100%;
+  margin-bottom: 0.5rem;
+}
+
+.lapide-toc ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.8rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.lapide-toc li {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.lapide-toc a {
+  color: var(--liturgical-color);
+}
+
+.lapide-toc a:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Sections */
+.lapide-page section {
+  margin-bottom: 3rem;
+}
+
+.lapide-page section h2 {
+  font-size: 1.5rem;
+  color: var(--liturgical-color);
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Chapter synopsis */
+.lapide-synopsis {
+  background: var(--bg-code);
+  border-left: 3px solid var(--liturgical-dim);
+  padding: 0.9rem 1.2rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.lapide-synopsis p {
+  margin-bottom: 0.5rem;
+}
+
+.lapide-synopsis p:last-child {
+  margin-bottom: 0;
+}
+
+/* Verse */
+.lapide-verse {
+  margin-bottom: 1.8rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.lapide-verse:last-child {
+  border-bottom: none;
+}
+
+.lapide-verse-ref {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+  text-transform: none;
+}
+
+.lapide-entry {
+  margin-bottom: 0.8rem;
+}
+
+.lapide-latin {
+  color: var(--text-muted);
+  margin-bottom: 0.3rem;
+  font-size: 0.97rem;
+}
+
+.lapide-english {
+  margin-bottom: 0;
+  line-height: 1.8;
+}
+
+/* Index grid */
+.lapide-index-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem 4rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 600px) {
+  .lapide-index-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lapide-book-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lapide-book-list li {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 1rem;
+}
+
+.lapide-book-list li:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.lapide-book-list a {
+  color: var(--text);
+}
+
+.lapide-book-list a:hover {
+  color: var(--liturgical-color);
+  text-decoration: none;
+}
+
+.lapide-badge {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 0.1em 0.4em;
+  margin-left: 0.5em;
+  vertical-align: middle;
+}
