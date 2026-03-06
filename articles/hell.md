@@ -10,7 +10,7 @@ The Athanasian Creed, recited in the Divine Office, states: "They that have done
 
 The Fourth Lateran Council (1215) defined: "Those [who die in mortal sin] will receive a perpetual punishment with the devil."
 
-The Council of Florence (1442) declared: "The souls of those who depart in actual mortal sin, or in original sin alone, go down immediately into Hell, to be punished, however, with unequal punishments." (*Denz.* 693)
+The Council of Florence (1439) declared: "The souls of those who depart in actual mortal sin, or in original sin alone, go down immediately into Hell, to be punished, however, with unequal punishments." (*Denz.* 693)
 
 The Council of Trent (Session VI) affirmed that those who lose sanctifying grace through mortal sin and die without repentance are excluded from the Kingdom of God.
 

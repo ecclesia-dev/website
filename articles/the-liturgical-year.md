@@ -76,7 +76,7 @@ This season is not filler. It is the liturgical image of the life of the Church 
 
 ## Ember Days and Rogation Days
 
-The **Ember Days** occur four times a year, at the turn of each season: the Wednesday, Friday, and Saturday after the Third Sunday of Advent, after Ash Wednesday, after Pentecost, and after the Feast of the Exaltation of the Holy Cross (September). They are days of fast and abstinence (under the older discipline) and prayer for the sanctification of the clergy — ordinations were traditionally conferred on Ember Saturdays.
+The **Ember Days** occur four times a year, at the turn of each season: the Wednesday, Friday, and Saturday after the Third Sunday of Advent, after the First Sunday of Lent, after Pentecost, and after the Feast of the Exaltation of the Holy Cross (September). They are days of fast and abstinence (under the older discipline) and prayer for the sanctification of the clergy — ordinations were traditionally conferred on Ember Saturdays.
 
 The Ember Days sanctify the natural rhythms of the year. They mark the seasons not with civic holidays but with penance and prayer. They remind the faithful that the earth itself is under God's providence and that the turning of the year is not secular but sacred.
 

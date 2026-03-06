@@ -22,11 +22,13 @@ The *Enchiridion* requires four conditions, all of which must be fulfilled:
 
 **First**, sacramental Confession — within about twenty days before or after the indulgenced act. A single Confession suffices for multiple plenary indulgences, provided the other conditions are met each time.
 
-**Second**, Holy Communion — received on the day the indulgence is sought, or within the same period of days surrounding the act.
+**Second**, Holy Communion — received on the day the indulgence is sought, or within several days before or after. Unlike Confession, each plenary indulgence requires a separate Communion.
 
 **Third**, prayer for the intentions of the Holy Father — an Our Father and a Hail Mary suffice, though other prayers may be substituted.
 
 **Fourth**, complete detachment from all sin, including venial sin. This is the hardest condition. If any attachment to any sin remains, the indulgence is partial, not plenary. This is the safeguard built into the system: an indulgence cannot be gained mechanically. The interior disposition matters absolutely.
+
+**Note**: Only one plenary indulgence may be gained per day, except at the hour of death (*Enchiridion Indulgentiarum*, norm 18 §1). A partial indulgence may be gained multiple times per day unless otherwise stated.
 
 ## The Treasury of the Church
 

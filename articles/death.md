@@ -32,7 +32,7 @@ The Catholic tradition has always cultivated the *Ars Moriendi* — the art of d
 
 What does it mean to die well?
 
-**First**, it means living in habitual state of grace. A man who lives in mortal sin and postpones repentance is gambling with eternity. The Council of Trent condemned the presumption that one can sin freely with the intention of repenting later (Session VI, Canon XVI).
+**First**, it means living in habitual state of grace. A man who lives in mortal sin and postpones repentance is gambling with eternity. The Council of Trent condemned the presumption that one can sin freely with the intention of repenting later (Session VI, Chapter XII).
 
 **Second**, it means frequenting the Sacraments — especially Confession and the Holy Eucharist. The Church provides Last Rites (the Sacrament of Anointing of the Sick, Viaticum, and the Apostolic Blessing) precisely because death is the decisive moment.
 

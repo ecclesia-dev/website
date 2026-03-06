@@ -54,7 +54,7 @@ St. Paul compares the Christian life to a race: "Know you not that they that run
 
 The hope of Heaven should produce three effects:
 
-**First, detachment from the world.** If Heaven is your end, then the goods of this life — wealth, comfort, reputation, pleasure — are means at best and obstacles at worst. "Set your mind on the things that are above, not on the things that are upon the earth" (Col. 3:2, DRB). The man who truly believes in Heaven does not cling to the world.
+**First, detachment from the world.** If Heaven is your end, then the goods of this life — wealth, comfort, reputation, pleasure — are means at best and obstacles at worst. "Mind the things that are above, not the things that are upon the earth" (Col. 3:2, DRB). The man who truly believes in Heaven does not cling to the world.
 
 **Second, zeal for souls.** If Heaven is real, then so is Hell. The salvation of souls is the most urgent work in existence. Every Catholic is obliged, according to his state in life, to work for the conversion of sinners and the sanctification of the faithful. This is not optional.
 
