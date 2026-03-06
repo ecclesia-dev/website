@@ -23,6 +23,8 @@ rsync -avz --delete \
   --exclude='LICENSE' \
   --exclude='.gitignore' \
   --exclude='status.json' \
+  --exclude='qa/' \
+  --exclude='lapide/build.py' \
   -e "ssh -i $SSH_KEY -o StrictHostKeyChecking=yes" \
   "$LOCAL_DIR" \
   "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR"
