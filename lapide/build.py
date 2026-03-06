@@ -2,12 +2,18 @@
 """
 build.py — Generate static HTML pages for Cornelius à Lapide's Biblical Commentary
 Output: /Users/master/.openclaw/workspace/projects/website/lapide/
+
+Structure:
+  lapide/index.html             — master book list
+  lapide/{book}/index.html      — chapter list for a book
+  lapide/{book}/{chapter}.html  — commentary for one chapter
 """
 
 import csv
 import html
 import os
 import re
+import shutil
 from collections import defaultdict, OrderedDict
 from pathlib import Path
 
@@ -110,7 +116,33 @@ BOOK_META = [
 BOOK_BY_KEY = {m[0]: m for m in BOOK_META}
 
 # ─── HTML helpers ──────────────────────────────────────────────────────────────
-HEADER = '''\
+
+def esc(s):
+    """HTML-escape a string."""
+    return html.escape(str(s), quote=False)
+
+def slugify(s):
+    return re.sub(r'[^a-z0-9]+', '-', s.lower()).strip('-')
+
+
+# ─── Page templates ────────────────────────────────────────────────────────────
+
+def chapter_header(title, desc, canonical, display_name, filename, ch_num=None):
+    """Header for a chapter page (lives in lapide/{book}/)."""
+    if ch_num is not None:
+        breadcrumb = (
+            f'      <a href="../../index.html">Home</a> &rsaquo;\n'
+            f'      <a href="../index.html">Cornelius à Lapide</a> &rsaquo;\n'
+            f'      <a href="index.html">{esc(display_name)}</a> &rsaquo;\n'
+            f'      Chapter {esc(str(ch_num))}'
+        )
+    else:
+        breadcrumb = (
+            f'      <a href="../../index.html">Home</a> &rsaquo;\n'
+            f'      <a href="../index.html">Cornelius à Lapide</a> &rsaquo;\n'
+            f'      {esc(display_name)}'
+        )
+    return f'''\
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,22 +150,22 @@ HEADER = '''\
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title} | Cornelius à Lapide | Ecclesia Dev</title>
   <meta name="description" content="{desc}">
-  <link rel="canonical" href="https://ecclesiadev.com/lapide/{filename}.html">
-  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="lapide.css">
+  <link rel="canonical" href="{canonical}">
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../lapide.css">
 </head>
 <body>
 
   <a href="#main-content" class="skip-nav">Skip to content</a>
 
   <nav aria-label="Site navigation">
-    <a class="logo" href="../index.html">✝ Ecclesia Dev</a>
+    <a class="logo" href="../../index.html">✝ Ecclesia Dev</a>
     <ul>
-      <li><a href="../index.html#projects">Projects</a></li>
-      <li><a href="../articles/index.html">Articles</a></li>
-      <li><a href="index.html">À Lapide</a></li>
-      <li><a href="../index.html#about">About</a></li>
+      <li><a href="../../index.html#projects">Projects</a></li>
+      <li><a href="../../articles/index.html">Articles</a></li>
+      <li><a href="../index.html">À Lapide</a></li>
+      <li><a href="../../index.html#about">About</a></li>
     </ul>
   </nav>
 
@@ -141,11 +173,10 @@ HEADER = '''\
   <article class="article-page lapide-page">
 
     <div class="article-back">
-      <a href="../index.html">Home</a> &rsaquo;
-      <a href="index.html">Cornelius à Lapide</a> &rsaquo;
-      {book_name}
+{breadcrumb}
     </div>
 '''
+
 
 FOOTER = '''\
   </article>
@@ -161,12 +192,25 @@ FOOTER = '''\
 </html>
 '''
 
-def esc(s):
-    """HTML-escape a string."""
-    return html.escape(str(s), quote=False)
 
-def slugify(s):
-    return re.sub(r'[^a-z0-9]+', '-', s.lower()).strip('-')
+def chapter_nav(filename, chapters, current_ch):
+    """Render prev/next chapter navigation links."""
+    idx = chapters.index(current_ch)
+    prev_ch = chapters[idx - 1] if idx > 0 else None
+    next_ch = chapters[idx + 1] if idx < len(chapters) - 1 else None
+
+    parts = ['    <nav class="lapide-chapter-nav" aria-label="Chapter navigation">']
+    if prev_ch is not None:
+        parts.append(f'      <a class="lapide-prev" href="{prev_ch}.html">&larr; Chapter {esc(str(prev_ch))}</a>')
+    else:
+        parts.append('      <span class="lapide-prev lapide-nav-disabled"></span>')
+    parts.append(f'      <a class="lapide-toc-link" href="index.html">All Chapters</a>')
+    if next_ch is not None:
+        parts.append(f'      <a class="lapide-next" href="{next_ch}.html">Chapter {esc(str(next_ch))} &rarr;</a>')
+    else:
+        parts.append('      <span class="lapide-next lapide-nav-disabled"></span>')
+    parts.append('    </nav>')
+    return '\n'.join(parts)
 
 
 # ─── Load NT data (lapide.tsv: Book, Verse, Commentary) ───────────────────────
@@ -191,18 +235,13 @@ def load_nt():
 
 
 # ─── Load OT data ─────────────────────────────────────────────────────────────
-# Two formats:
-#  5-col: book  chapter  verse  latin_incipit  english_translation
-#  4-col: book  chapter  verse  annotation      (no latin incipit)
 def load_ot_file(tsv_path):
     """Returns {chapter: {verse: [(latin_incipit, english_translation), ...]}}"""
     data = defaultdict(lambda: defaultdict(list))
     with open(tsv_path, encoding="utf-8") as f:
         reader = csv.reader(f, delimiter='\t')
-        header = None
         for i, row in enumerate(reader):
             if i == 0:
-                header = [c.strip().lower() for c in row]
                 continue
             if len(row) < 4:
                 continue
@@ -210,29 +249,30 @@ def load_ot_file(tsv_path):
             chap  = row[1].strip()
             verse = row[2].strip()
             if len(row) >= 5:
-                # 5-col format
                 latin   = row[3].strip()
                 english = row[4].strip()
             else:
-                # 4-col format — no latin incipit
                 latin   = ""
                 english = row[3].strip()
             data[chap][verse].append((latin, english))
     return data
 
 
-# ─── Render a book page ────────────────────────────────────────────────────────
+# ─── Render book index page ────────────────────────────────────────────────────
 
-def render_ot_book(key, meta, chap_data):
+def render_book_index(meta, chapters_sorted, author_label):
+    """Renders lapide/{book}/index.html — the chapter TOC for a book."""
     _, filename, display_name, _, author, intro = meta
-    author_label = "Cornelius à Lapide SJ" if author == "à Lapide" else "Balthasar Corderius SJ"
 
     lines = []
-    lines.append(HEADER.format(
+    canonical = f"https://ecclesiadev.com/lapide/{filename}/"
+    lines.append(chapter_header(
         title=display_name,
-        desc=f"Commentary on {display_name} by {author_label}. Patristic synthesis from the Cornelius à Lapide series.",
+        desc=f"Commentary on {display_name} by {author_label}. Browse by chapter.",
+        canonical=canonical,
+        display_name=display_name,
         filename=filename,
-        book_name=esc(display_name),
+        ch_num=None,
     ))
 
     lines.append(f'    <header class="article-header">')
@@ -242,109 +282,116 @@ def render_ot_book(key, meta, chap_data):
     lines.append(f'    </header>')
     lines.append(f'    <hr class="article-rule">')
 
-    # Table of contents by chapter
-    chapters = sorted(chap_data.keys(), key=lambda c: int(c) if c.isdigit() else 0)
-
-    if len(chapters) > 1:
-        lines.append('    <nav class="lapide-toc" aria-label="Chapters">')
-        lines.append('      <p class="toc-title">Chapters</p>')
-        lines.append('      <ol>')
-        for ch in chapters:
-            lines.append(f'        <li><a href="#ch{ch}">Chapter {esc(ch)}</a></li>')
-        lines.append('      </ol>')
-        lines.append('    </nav>')
-
-    for ch in chapters:
-        verses = chap_data[ch]
-        verse_keys = sorted(verses.keys(), key=lambda v: (
-            int(re.split(r'[^0-9]', v)[0]) if re.split(r'[^0-9]', v)[0].isdigit() else 0
-        ))
-
-        lines.append(f'    <section id="ch{esc(ch)}">')
-        lines.append(f'      <h2>Chapter {esc(ch)}</h2>')
-
-        # verse 0 = chapter synopsis/introduction
-        if '0' in verses:
-            for (latin, english) in verses['0']:
-                lines.append('      <div class="lapide-synopsis">')
-                if latin:
-                    lines.append(f'        <p><em>{esc(latin)}</em></p>')
-                lines.append(f'        <p>{esc(english)}</p>')
-                lines.append('      </div>')
-
-        for v in verse_keys:
-            if v == '0':
-                continue
-            entries = verses[v]
-            v_id = f"ch{ch}-v{v}"
-            lines.append(f'      <div class="lapide-verse" id="{esc(v_id)}">')
-            lines.append(f'        <h3 class="lapide-verse-ref">Verse {esc(v)}</h3>')
-            for (latin, english) in entries:
-                lines.append('        <div class="lapide-entry">')
-                if latin:
-                    lines.append(f'          <p class="lapide-latin"><em>{esc(latin)}</em></p>')
-                lines.append(f'          <p class="lapide-english">{esc(english)}</p>')
-                lines.append('        </div>')
-            lines.append('      </div>')
-
-        lines.append('    </section>')
+    lines.append('    <nav class="lapide-chapter-grid" aria-label="Chapter list">')
+    lines.append('      <h2>Chapters</h2>')
+    lines.append('      <ol class="lapide-chapter-ol">')
+    for ch in chapters_sorted:
+        lines.append(f'        <li><a href="{ch}.html">Chapter {esc(str(ch))}</a></li>')
+    lines.append('      </ol>')
+    lines.append('    </nav>')
 
     lines.append(FOOTER)
     return '\n'.join(lines)
 
 
-def render_nt_book(key, meta, chap_data):
+# ─── Render OT chapter page ────────────────────────────────────────────────────
+
+def render_ot_chapter(meta, ch, verse_data, chapters_sorted, author_label):
+    _, filename, display_name, _, author, intro = meta
+
+    lines = []
+    canonical = f"https://ecclesiadev.com/lapide/{filename}/{ch}.html"
+    lines.append(chapter_header(
+        title=f"{display_name} — Chapter {ch}",
+        desc=f"Commentary on {display_name} chapter {ch} by {author_label}.",
+        canonical=canonical,
+        display_name=display_name,
+        filename=filename,
+        ch_num=ch,
+    ))
+
+    lines.append(chapter_nav(filename, chapters_sorted, ch))
+
+    lines.append(f'    <header class="article-header">')
+    lines.append(f'      <h1>{esc(display_name)} — Chapter {esc(str(ch))}</h1>')
+    lines.append(f'      <p class="article-meta">{author_label} &middot; Biblical Commentary</p>')
+    lines.append(f'    </header>')
+    lines.append(f'    <hr class="article-rule">')
+
+    verse_keys = sorted(verse_data.keys(), key=lambda v: (
+        int(re.split(r'[^0-9]', v)[0]) if re.split(r'[^0-9]', v)[0].isdigit() else 0
+    ))
+
+    # verse 0 = chapter synopsis/introduction
+    if '0' in verse_data:
+        for (latin, english) in verse_data['0']:
+            lines.append('      <div class="lapide-synopsis">')
+            if latin:
+                lines.append(f'        <p><em>{esc(latin)}</em></p>')
+            lines.append(f'        <p>{esc(english)}</p>')
+            lines.append('      </div>')
+
+    for v in verse_keys:
+        if v == '0':
+            continue
+        entries = verse_data[v]
+        v_id = f"ch{ch}-v{v}"
+        lines.append(f'      <div class="lapide-verse" id="{esc(v_id)}">')
+        lines.append(f'        <h3 class="lapide-verse-ref">Verse {esc(v)}</h3>')
+        for (latin, english) in entries:
+            lines.append('        <div class="lapide-entry">')
+            if latin:
+                lines.append(f'          <p class="lapide-latin"><em>{esc(latin)}</em></p>')
+            lines.append(f'          <p class="lapide-english">{esc(english)}</p>')
+            lines.append('        </div>')
+        lines.append('      </div>')
+
+    lines.append(chapter_nav(filename, chapters_sorted, ch))
+    lines.append(FOOTER)
+    return '\n'.join(lines)
+
+
+# ─── Render NT chapter page ────────────────────────────────────────────────────
+
+def render_nt_chapter(meta, ch, verse_data, chapters_sorted):
     _, filename, display_name, _, author, intro = meta
     author_label = "Cornelius à Lapide SJ"
 
     lines = []
-    lines.append(HEADER.format(
-        title=display_name,
-        desc=f"Commentary on {display_name} by {author_label}. Patristic synthesis from the Cornelius à Lapide series.",
+    canonical = f"https://ecclesiadev.com/lapide/{filename}/{ch}.html"
+    lines.append(chapter_header(
+        title=f"{display_name} — Chapter {ch}",
+        desc=f"Commentary on {display_name} chapter {ch} by {author_label}.",
+        canonical=canonical,
+        display_name=display_name,
         filename=filename,
-        book_name=esc(display_name),
+        ch_num=ch,
     ))
 
+    lines.append(chapter_nav(filename, chapters_sorted, ch))
+
     lines.append(f'    <header class="article-header">')
-    lines.append(f'      <h1>{esc(display_name)}</h1>')
+    lines.append(f'      <h1>{esc(display_name)} — Chapter {esc(str(ch))}</h1>')
     lines.append(f'      <p class="article-meta">{author_label} &middot; Biblical Commentary</p>')
-    lines.append(f'      <p class="article-lead">{intro}</p>')
     lines.append(f'    </header>')
     lines.append(f'    <hr class="article-rule">')
 
-    chapters = sorted(chap_data.keys(), key=lambda c: int(c) if c.isdigit() else 0)
+    verse_keys = sorted(verse_data.keys(), key=lambda v: (
+        int(re.split(r'[-–]', v)[0]) if re.split(r'[-–]', v)[0].isdigit() else 0
+    ))
 
-    if len(chapters) > 1:
-        lines.append('    <nav class="lapide-toc" aria-label="Chapters">')
-        lines.append('      <p class="toc-title">Chapters</p>')
-        lines.append('      <ol>')
-        for ch in chapters:
-            lines.append(f'        <li><a href="#ch{ch}">Chapter {esc(ch)}</a></li>')
-        lines.append('      </ol>')
-        lines.append('    </nav>')
+    for v in verse_keys:
+        entries = verse_data[v]
+        v_id = f"ch{ch}-v{v}"
+        lines.append(f'      <div class="lapide-verse" id="{esc(v_id)}">')
+        lines.append(f'        <h3 class="lapide-verse-ref">Verse {esc(v)}</h3>')
+        for commentary in entries:
+            lines.append('        <div class="lapide-entry">')
+            lines.append(f'          <p class="lapide-english">{esc(commentary)}</p>')
+            lines.append('        </div>')
+        lines.append('      </div>')
 
-    for ch in chapters:
-        verses = chap_data[ch]
-        verse_keys = sorted(verses.keys(), key=lambda v: (
-            int(re.split(r'[-–]', v)[0]) if re.split(r'[-–]', v)[0].isdigit() else 0
-        ))
-
-        lines.append(f'    <section id="ch{esc(ch)}">')
-        lines.append(f'      <h2>Chapter {esc(ch)}</h2>')
-
-        for v in verse_keys:
-            entries = verses[v]
-            v_id = f"ch{ch}-v{v}"
-            lines.append(f'      <div class="lapide-verse" id="{esc(v_id)}">')
-            lines.append(f'        <h3 class="lapide-verse-ref">Verse {esc(v)}</h3>')
-            for commentary in entries:
-                lines.append('        <div class="lapide-entry">')
-                lines.append(f'          <p class="lapide-english">{esc(commentary)}</p>')
-                lines.append('        </div>')
-            lines.append('      </div>')
-
-        lines.append('    </section>')
-
+    lines.append(chapter_nav(filename, chapters_sorted, ch))
     lines.append(FOOTER)
     return '\n'.join(lines)
 
@@ -416,7 +463,7 @@ def render_index(ot_books, nt_books):
 
     for key, filename, display_name, _, author, _ in ot_books:
         badge = ' <span class="lapide-badge">Corderius</span>' if author == "Corderius" else ''
-        lines.append(f'          <li><a href="{filename}.html">{esc(display_name)}</a>{badge}</li>')
+        lines.append(f'          <li><a href="{filename}/index.html">{esc(display_name)}</a>{badge}</li>')
 
     lines.append('''\
         </ul>
@@ -428,7 +475,7 @@ def render_index(ot_books, nt_books):
 ''')
 
     for key, filename, display_name, _, author, _ in nt_books:
-        lines.append(f'          <li><a href="{filename}.html">{esc(display_name)}</a></li>')
+        lines.append(f'          <li><a href="{filename}/index.html">{esc(display_name)}</a></li>')
 
     lines.append('''\
         </ul>
@@ -500,6 +547,65 @@ LAPIDE_CSS = '''\
 }
 
 .lapide-toc a:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Chapter navigation */
+.lapide-chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  margin: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.lapide-chapter-nav a {
+  color: var(--liturgical-color);
+  text-decoration: none;
+}
+
+.lapide-chapter-nav a:hover {
+  color: var(--text);
+}
+
+.lapide-toc-link {
+  font-size: 0.85rem;
+  color: var(--text-muted) !important;
+}
+
+.lapide-nav-disabled {
+  display: inline-block;
+  width: 6rem;
+}
+
+/* Chapter list on book index */
+.lapide-chapter-grid h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.lapide-chapter-ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.lapide-chapter-ol li {
+  font-size: 0.97rem;
+}
+
+.lapide-chapter-ol a {
+  color: var(--liturgical-color);
+}
+
+.lapide-chapter-ol a:hover {
   color: var(--text);
   text-decoration: none;
 }
@@ -631,16 +737,25 @@ def main():
 
     nt_data = load_nt()
 
-    generated = []
+    generated_files = []
+    generated_dirs = []
 
     # Write supplemental CSS
     css_path = OUTPUT_DIR / "lapide.css"
     css_path.write_text(LAPIDE_CSS, encoding="utf-8")
     print(f"  CSS: {css_path}")
 
+    # Remove old monolithic book HTML files (e.g. lapide/john.html)
+    old_html = list(OUTPUT_DIR.glob("*.html"))
+    old_book_html = [p for p in old_html if p.name != "index.html"]
+    for p in old_book_html:
+        p.unlink()
+        print(f"  DEL: {p.name}")
+
     # Generate OT pages
     for meta in ot_meta:
         key, filename, display_name, _, author, _ = meta
+        author_label = "Cornelius à Lapide SJ" if author == "à Lapide" else "Balthasar Corderius SJ"
 
         if key == "Jb":
             tsv_path = DRB_DIR / "corderius-Jb.tsv"
@@ -656,11 +771,25 @@ def main():
             print(f"  SKIP (empty): {key}")
             continue
 
-        html_out = render_ot_book(key, meta, chap_data)
-        out_path = OUTPUT_DIR / f"{filename}.html"
-        out_path.write_text(html_out, encoding="utf-8")
-        print(f"  OT: {out_path.name} ({len(chap_data)} chapters)")
-        generated.append(out_path.name)
+        chapters_sorted = sorted(chap_data.keys(), key=lambda c: int(c) if c.isdigit() else 0)
+
+        # Create book subdirectory
+        book_dir = OUTPUT_DIR / filename
+        book_dir.mkdir(exist_ok=True)
+
+        # Write book index (chapter TOC)
+        index_html = render_book_index(meta, chapters_sorted, author_label)
+        index_path = book_dir / "index.html"
+        index_path.write_text(index_html, encoding="utf-8")
+
+        # Write per-chapter pages
+        for ch in chapters_sorted:
+            ch_html = render_ot_chapter(meta, ch, chap_data[ch], chapters_sorted, author_label)
+            ch_path = book_dir / f"{ch}.html"
+            ch_path.write_text(ch_html, encoding="utf-8")
+
+        print(f"  OT: {filename}/ ({len(chapters_sorted)} chapters)")
+        generated_dirs.append(filename)
 
     # Generate NT pages
     for meta in nt_meta:
@@ -671,21 +800,34 @@ def main():
             continue
 
         chap_data = nt_data[key]
-        html_out = render_nt_book(key, meta, chap_data)
-        out_path = OUTPUT_DIR / f"{filename}.html"
-        out_path.write_text(html_out, encoding="utf-8")
-        print(f"  NT: {out_path.name} ({len(chap_data)} chapters)")
-        generated.append(out_path.name)
+        chapters_sorted = sorted(chap_data.keys(), key=lambda c: int(c) if c.isdigit() else 0)
 
-    # Generate index
+        # Create book subdirectory
+        book_dir = OUTPUT_DIR / filename
+        book_dir.mkdir(exist_ok=True)
+
+        # Write book index (chapter TOC)
+        index_html = render_book_index(meta, chapters_sorted, "Cornelius à Lapide SJ")
+        index_path = book_dir / "index.html"
+        index_path.write_text(index_html, encoding="utf-8")
+
+        # Write per-chapter pages
+        for ch in chapters_sorted:
+            ch_html = render_nt_chapter(meta, ch, chap_data[ch], chapters_sorted)
+            ch_path = book_dir / f"{ch}.html"
+            ch_path.write_text(ch_html, encoding="utf-8")
+
+        print(f"  NT: {filename}/ ({len(chapters_sorted)} chapters)")
+        generated_dirs.append(filename)
+
+    # Generate master index
     index_html = render_index(ot_meta, nt_meta)
     index_path = OUTPUT_DIR / "index.html"
     index_path.write_text(index_html, encoding="utf-8")
     print(f"  INDEX: {index_path}")
-    generated.append("index.html")
 
-    print(f"\nDone. Generated {len(generated)} files.")
-    return generated
+    print(f"\nDone. Generated {len(generated_dirs)} book directories.")
+    return generated_dirs
 
 
 if __name__ == "__main__":

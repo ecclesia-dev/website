@@ -48,6 +48,65 @@
   text-decoration: none;
 }
 
+/* Chapter navigation */
+.lapide-chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  margin: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.lapide-chapter-nav a {
+  color: var(--liturgical-color);
+  text-decoration: none;
+}
+
+.lapide-chapter-nav a:hover {
+  color: var(--text);
+}
+
+.lapide-toc-link {
+  font-size: 0.85rem;
+  color: var(--text-muted) !important;
+}
+
+.lapide-nav-disabled {
+  display: inline-block;
+  width: 6rem;
+}
+
+/* Chapter list on book index */
+.lapide-chapter-grid h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.lapide-chapter-ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.lapide-chapter-ol li {
+  font-size: 0.97rem;
+}
+
+.lapide-chapter-ol a {
+  color: var(--liturgical-color);
+}
+
+.lapide-chapter-ol a:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
 /* Sections */
 .lapide-page section {
   margin-bottom: 3rem;
