@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 build.py — Generate static HTML pages for Cornelius à Lapide's Biblical Commentary
-Output: /Users/master/.openclaw/workspace/projects/website/lapide/
 
 Structure:
   lapide/index.html             — master book list
@@ -20,7 +19,7 @@ from pathlib import Path
 # ─── Paths ────────────────────────────────────────────────────────────────────
 SCRIPT_DIR = Path(__file__).parent
 OUTPUT_DIR = SCRIPT_DIR
-DRB_DIR = Path("/Users/master/.openclaw/workspace/projects/drb")
+DRB_DIR = SCRIPT_DIR.parent.parent / "drb"
 
 # ─── Book metadata ─────────────────────────────────────────────────────────────
 # (tsv_key, html_filename, display_name, canon_group, author, intro)
@@ -90,9 +89,37 @@ BOOK_META = [
      "À Lapide's Ezekiel commentary is a monument of allegorical exegesis, treating the four living creatures, the dry bones, and the visionary temple as inexhaustible figures of Christ, the Church, and the Last Things."),
     ("Dn",    "daniel",           "Daniel",                    "OT", "à Lapide",
      "In Daniel, à Lapide expounds the four monarchies, the Son of Man vision, and the seventy weeks with great precision, treating the book as the most prophetically exact anticipation of Christ's coming in the entire Old Testament."),
+    # Minor Prophets
+    ("Hos",   "hosea",            "Hosea",                     "OT", "à Lapide",
+     "À Lapide's Hosea commentary opens with the scandal of the prophetic marriage, which he expounds — following Origen and Jerome — as a figure of God's covenant love betrayed by Israel's idolatry and fulfilled in Christ's union with the Church. The literary prophecies of restoration (Hos. 2:14–23; 11:1; 14:5–9) are treated as among the most tender expressions of divine mercy in the entire Old Testament."),
+    ("Joel",  "joel",             "Joel",                      "OT", "à Lapide",
+     "In Joel, à Lapide reads the locust plague as a figure of successive chastisements sent to drive Israel to repentance, and expounds the great Pentecost oracle (Joel 2:28–32) — quoted by St. Peter in Acts 2 — as the most explicit Old Testament prophecy of the Holy Ghost's outpouring upon the Church."),
+    ("Am",    "amos",             "Amos",                      "OT", "à Lapide",
+     "À Lapide's Amos commentary treats the shepherd-prophet of Tekoa as the great herald of social justice and divine transcendence, expounding the oracles against the nations and the visions of the plumb-line and summer fruit as figures of the Last Judgment, while the promise of David's fallen tabernacle (Amos 9:11) is read as a Messianic prophecy of the Incarnation."),
+    ("Ob",    "obadiah",          "Obadiah",                   "OT", "à Lapide",
+     "The briefest of the prophetic books receives from à Lapide a commentary that treats Obadiah's oracle against Edom as a double prophecy: literally against the historical Edomites, typologically against all enemies of the Church. The final verse's promise of the kingdom of the Lord is read as a direct Messianic oracle."),
+    ("Jon",   "jonah",            "Jonah",                     "OT", "à Lapide",
+     "À Lapide's Jonah commentary expounds the prophet's flight, the great storm, and the three days in the whale's belly as the most celebrated Old Testament type of Christ's death and Resurrection — cited by Our Lord Himself (Mt. 12:40). The Ninevite repentance is treated as a figure of the Gentiles' conversion through the preaching of the Apostles."),
+    ("Mic",   "micah",            "Micah",                     "OT", "à Lapide",
+     "In Micah, à Lapide expounds the great Bethlehem prophecy (Mic. 5:2) — quoted by the chief priests to Herod (Mt. 2:6) — as the most geographically precise Messianic oracle of the Old Testament. The prophet's summary of the Law (Mic. 6:8: 'to do justice, to love mercy, and to walk humbly with thy God') is treated as the ethical heart of all prophetic religion."),
+    ("Nah",   "nahum",            "Nahum",                     "OT", "à Lapide",
+     "À Lapide reads Nahum's oracle against Nineveh as a figure of divine judgment upon all apostasy, and expounds the opening proclamation — 'God is patient and great in power and will not cleanse the wicked' — as a synthesis of the divine attributes of mercy and justice. The vivid battle imagery is treated both literally as historical prophecy and typologically as the Church's victory over her enemies."),
+    ("Hab",   "habakkuk",         "Habakkuk",                  "OT", "à Lapide",
+     "In Habakkuk, à Lapide expounds the prophet's bold dialogue with God about the prosperity of the wicked as a model of contemplative prayer and theological inquiry. The oracle 'the just man shall live by his faith' (Hab. 2:4) — cited three times in the New Testament — receives extended treatment as the foundation of the doctrine of justification. The great theophany of chapter 3 is read as a vision of the Incarnate Christ."),
+    ("Zeph",  "zephaniah",        "Zephaniah",                 "OT", "à Lapide",
+     "À Lapide's Zephaniah commentary treats the Day of the Lord oracles — which gave birth to the medieval Dies irae — as the most solemn prophetic proclamation of the Last Judgment in the minor prophets. The daughter of Sion oracle (Zeph. 3:14–17) is read as a direct Advent prophecy of the Annunciation, parallel to Gabriel's greeting."),
+    ("Hag",   "haggai",           "Haggai",                    "OT", "à Lapide",
+     "In Haggai, à Lapide expounds the post-exilic prophet's call to rebuild the Temple as a figure of the Church's perennial obligation to maintain divine worship. The promise that 'the glory of this latter house shall be greater than of the former' (Hag. 2:9) is treated as a prophecy of the Incarnation: the Second Temple's greater glory lies in its being visited by Christ Himself."),
+    ("Zech",  "zechariah",        "Zechariah",                 "OT", "à Lapide",
+     "À Lapide regards Zechariah as the most Christologically rich of the minor prophets, with eight night visions expounded as a coherent symbolic programme of Messianic hope. The triumphal entry oracle (Zech. 9:9), the thirty pieces of silver (Zech. 11:12–13), the pierced one (Zech. 12:10), and the shepherd struck (Zech. 13:7) are all treated as directly prophetic of the Passion."),
+    ("Mal",   "malachi",          "Malachi",                   "OT", "à Lapide",
+     "In Malachi, à Lapide expounds the last of the canonical prophets as the herald of the New Covenant's pure oblation (Mal. 1:11) — which the Council of Trent adduced as the clearest Old Testament prophecy of the Mass — and the forerunner oracle (Mal. 3:1; 4:5) as a prediction of John the Baptist cited by Christ Himself. The closing curse-turned-promise marks the threshold of the four centuries of prophetic silence before the Incarnation."),
     # Job — Corderius
     ("Jb",    "job",              "Job",                       "OT", "Corderius",
      "The commentary on Job is the work of <strong>Balthasar Corderius SJ</strong> (1592–1650), not à Lapide — a fellow Jesuit whose learned catena on Job draws on the Greek Fathers, Chrysostom, and Gregory's <em>Moralia</em> in exhaustive detail."),
+    # Psalms
+    ("Ps",    "psalms",           "Psalms",                    "OT", "à Lapide",
+     "À Lapide's Psalms commentary is among the crowning achievements of his exegetical corpus, expounding the Psalter as simultaneously the prayer of David, the voice of Christ, and the prayer of the Church. Following Augustine's <em>Enarrationes</em> and Bellarmine's <em>Explanatio in Psalmos</em>, à Lapide treats each Psalm in its literal, Christological, and tropological senses with characteristic patristic depth and practical moral application."),
     # NEW TESTAMENT
     ("Mt",    "matthew",          "Matthew",                   "NT", "à Lapide",
      "À Lapide's Matthew is among his earliest and most influential commentaries, expounding the Gospel verse by verse through an encyclopedic synthesis of the Fathers — Chrysostom, Jerome, Augustine — with characteristic precision on the literal sense."),
