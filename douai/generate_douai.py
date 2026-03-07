@@ -37,7 +37,7 @@ BOOK_MAP = {
     'Ps':    ('psalms',           'Psalms'),
     'Prv':   ('proverbs',         'Proverbs'),
     'Eccl':  ('ecclesiastes',     'Ecclesiastes'),
-    'Sg':    ('songofsolomon',    'Song of Solomon'),
+    'Sg':    ('canticleofcanticles', 'Canticle of Canticles'),
     'Wis':   ('wisdom',           'Wisdom'),
     'Sir':   ('sirach',           'Sirach'),
     'Is':    ('isaiah',           'Isaiah'),
@@ -109,12 +109,33 @@ def footer_html():
   </footer>'''
 
 
-def note_html():
+def source_short(abbrev):
+    """Short label for meta description: '1609 Douay Old Testament' or '1582 Rheims New Testament'."""
+    if abbrev in NT_ABBREVS:
+        return '1582 Rheims New Testament'
+    return '1609 Douay Old Testament'
+
+
+def source_long(abbrev):
+    """Full sentence for inline note on chapter pages."""
+    if abbrev in NT_ABBREVS:
+        return (
+            'These annotations are from the original 1582 Rheims New Testament, '
+            'produced by English scholars in exile at the English College of Rheims. '
+            'The archaic spelling is preserved.'
+        )
+    return (
+        'These annotations are from the original 1609 Douay Old Testament, '
+        'the first complete English Catholic Bible translation, '
+        'produced by English scholars in exile at the English College of Douai. '
+        'The archaic spelling is preserved.'
+    )
+
+
+def note_html(abbrev=''):
     return (
         '<p class="lapide-synopsis" style="font-style:normal;">'
-        'These annotations are from the original 1609 Douay Old Testament, '
-        'the first English Catholic Bible translation. '
-        'The archaic spelling is preserved.'
+        + source_long(abbrev) +
         '</p>'
     )
 
@@ -207,7 +228,7 @@ def build_index(data, out_dir):
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Douai-Rheims 1609 Annotations | Ecclesia Dev</title>
-  <meta name="description" content="Annotations from the original 1609 Douay Old Testament — the first English Catholic Bible translation. Browse by book and chapter.">
+  <meta name="description" content="Annotations from the Douay-Rheims Bible: the 1609 Douay Old Testament and the 1582 Rheims New Testament. Browse by book and chapter.">
   <link rel="canonical" href="https://ecclesiadev.com/douai/">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="stylesheet" href="../style.css">
@@ -235,14 +256,14 @@ def build_index(data, out_dir):
     </div>
 
     <header class="article-header">
-      <h1>Douai-Rheims 1609 — Annotations</h1>
-      <p class="article-meta">Original Douay Old Testament &middot; 1609</p>
+      <h1>Douay-Rheims — Annotations</h1>
+      <p class="article-meta">Rheims New Testament (1582) &middot; Douay Old Testament (1609)</p>
       <p class="article-lead">
-        The Douay Old Testament of 1609 was the first complete English Catholic Bible translation,
-        produced by English scholars in exile at the English College of Douai. Each book was
-        accompanied by extensive marginal and chapter annotations explaining the text, defending
-        Catholic doctrine, and offering patristic commentary. These annotations are preserved here
-        verbatim, with all archaic spelling intact.
+        The Douay-Rheims is the first complete English Catholic Bible translation, produced by
+        English scholars in exile. The New Testament was published at Rheims in 1582; the Old
+        Testament at Douai in 1609. Each book was accompanied by extensive marginal and chapter
+        annotations explaining the text, defending Catholic doctrine, and offering patristic
+        commentary. These annotations are preserved here verbatim, with all archaic spelling intact.
       </p>
     </header>
     <hr class="article-rule">
@@ -291,7 +312,7 @@ def build_book_index(abbrev, chapters, out_dir):
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{esc(display)} | Douai-Rheims 1609 | Ecclesia Dev</title>
-  <meta name="description" content="Annotations on {esc(display)} from the 1609 Douay Old Testament. Browse by chapter.">
+  <meta name="description" content="Annotations on {esc(display)} from the {source_short(abbrev)}. Browse by chapter.">
   <link rel="canonical" href="https://ecclesiadev.com/douai/{dirname}/">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <link rel="stylesheet" href="../../style.css">
@@ -401,7 +422,7 @@ def build_chapter(abbrev, ch, verses, all_chapters, out_dir):
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{esc(display)} — Chapter {ch} | Douai-Rheims 1609 | Ecclesia Dev</title>
-  <meta name="description" content="Annotations on {esc(display)} chapter {ch} from the 1609 Douay Old Testament.">
+  <meta name="description" content="Annotations on {esc(display)} chapter {ch} from the {source_short(abbrev)}.">
   <link rel="canonical" href="https://ecclesiadev.com/douai/{dirname}/{ch}.html">
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <link rel="stylesheet" href="../../style.css">
@@ -444,7 +465,7 @@ def build_chapter(abbrev, ch, verses, all_chapters, out_dir):
     <hr class="article-rule">
 
     <div class="lapide-synopsis">
-      <p>These annotations are from the original 1609 Douay Old Testament, the first English Catholic Bible translation. The archaic spelling is preserved.</p>
+      <p>{source_long(abbrev)}</p>
     </div>
 
     <nav class="lapide-toc" aria-label="Verse list">
