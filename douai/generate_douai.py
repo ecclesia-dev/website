@@ -153,12 +153,20 @@ def parse_tsv(path):
         for row in reader:
             if len(row) < 3:
                 continue
-            abbrev, cv, annotation = row[0].strip(), row[1].strip(), row[2].strip()
+            abbrev = row[0].strip()
+            cv = row[1].strip()
+            # v9 TSV: col2=VerseQuote, col3=Commentary — use Commentary if present, else col2
+            verse_quote = row[2].strip() if len(row) > 2 else ''
+            commentary  = row[3].strip() if len(row) > 3 else ''
+            annotation  = commentary if commentary else verse_quote
             # Skip header rows
             if abbrev == 'BookAbbrev' or abbrev == '':
                 continue
             if abbrev not in BOOK_MAP:
                 continue  # unknown book
+            # Skip rows with no content
+            if not annotation:
+                continue
             # Parse chapter:verse
             if ':' not in cv:
                 continue
