@@ -79,7 +79,7 @@ NT_ABBREVS = ['Mt','Mk','Lk','Jn','Rom','1Cor','2Cor','Gal','Eph','Phil','Col',
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 SCRIPT_DIR = Path(__file__).parent
-TSV_PATH   = SCRIPT_DIR.parent.parent / "drb-ios" / "DouayRheims" / "douai-1609-fixed-v7.tsv"
+TSV_PATH   = SCRIPT_DIR.parent.parent / "drb-ios" / "DouayRheims" / "douai-1609-fixed-v8.tsv"
 OUT_DIR    = SCRIPT_DIR   # output relative to this script's directory
 
 
