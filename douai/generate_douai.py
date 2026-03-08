@@ -159,6 +159,8 @@ def parse_tsv(path):
             verse_quote = row[2].strip() if len(row) > 2 else ''
             commentary  = row[3].strip() if len(row) > 3 else ''
             annotation  = commentary if commentary else verse_quote
+            # Strip OCR confidence tags
+            annotation = annotation.replace('[LOW_CONFIDENCE]', '').replace('[HIGH_CONFIDENCE]', '').strip()
             # Skip header rows
             if abbrev == 'BookAbbrev' or abbrev == '':
                 continue
