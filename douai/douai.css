@@ -224,3 +224,32 @@
   margin-left: 0.5em;
   vertical-align: middle;
 }
+
+/* ── OCR Disclaimer ─────────────────────────────────────────────────────── */
+.ocr-disclaimer {
+  margin: 1.5rem 0;
+  padding: 1rem 1.2rem;
+  background: #fffbe6;
+  border: 2px solid #e6c600;
+  border-left: 5px solid #c8a000;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #4a3800;
+}
+.ocr-disclaimer strong {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+}
+.ocr-disclaimer p {
+  margin: 0;
+  line-height: 1.5;
+}
+@media (prefers-color-scheme: dark) {
+  .ocr-disclaimer {
+    background: #2a2200;
+    border-color: #806a00;
+    border-left-color: #c8a000;
+    color: #f0d060;
+  }
+}

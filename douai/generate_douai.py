@@ -140,6 +140,66 @@ def note_html(abbrev=''):
     )
 
 
+def ocr_disclaimer_html():
+    """Prominent disclaimer about OCR chapter/verse attribution issues."""
+    return '''\
+    <div class="ocr-disclaimer" role="note" aria-label="OCR accuracy notice">
+      <strong>&#9888; Note on Chapter &amp; Verse Numbers</strong>
+      <p>
+        This content was digitized from the original 1609 Douay (Old Testament) and 1582 Rheims
+        (New Testament) print editions by OCR. The OCR process sometimes confused <em>print page
+        numbers</em> with verse numbers, and may have assigned annotations to the wrong chapter.
+        Chapter and verse labels on this page reflect the OCR output from the original print
+        pagination and <strong>may not correspond to canonical Scripture chapter/verse
+        numbers</strong>. For canonical reference, consult a standard Douay-Rheims edition.
+        The annotation texts themselves are authentic 1609/1582 Douay-Rheims content.
+      </p>
+    </div>'''
+
+
+def is_index_content(text):
+    """
+    Return True if the annotation appears to be back-of-book index content
+    (Table of Controversies, Table of Epistles & Gospels, index pages)
+    rather than a genuine marginal annotation.
+
+    These were OCR'd from back-matter in the 1582 NT and landed in the verse
+    stream with wrong chapter/verse labels.  Several signals identify them:
+
+    1. High density of 'marg.' abbreviations (page-ref index entries typically
+       have ≥ 4 occurrences; genuine annotations rarely exceed 3).
+
+    2. Very low real-word density: content that is almost entirely page/folio
+       references, 'nu.', 'pag.', 'golp.', numbers, and punctuation — fewer
+       than 5 recognisable English/Latin words of 3+ letters after stripping
+       digits and common abbreviations.
+
+    3. Begins with a bare page reference ('pag.', 'golp.', 'p. \\d', etc.) —
+       a stub entry torn from its alphabetical index context.
+    """
+    import re
+    lower = text.lower()
+
+    # Signal 1 — marg-density
+    if lower.count('marg') >= 4:
+        return True
+
+    # Signal 2 — very few real words
+    # Strip digits, punctuation, and known abbreviations then count words ≥ 3 chars
+    stripped = re.sub(r'\b(?:pag|marg|nu|golp|ib(?:id)?|ibid|ep|gofp|vt|&|de|in|ad|et|the)\b', ' ', lower)
+    stripped = re.sub(r'\d+', ' ', stripped)
+    stripped = re.sub(r'[^a-z\s]', ' ', stripped)
+    real_words = [w for w in stripped.split() if len(w) >= 3]
+    if len(real_words) < 5:
+        return True
+
+    # Signal 3 — starts with a bare page reference
+    if re.match(r'^\s*(?:pag|golp|p\.)\s*\.?\s*\d', lower):
+        return True
+
+    return False
+
+
 # ── Parse TSV ─────────────────────────────────────────────────────────────────
 def parse_tsv(path):
     """
@@ -168,6 +228,9 @@ def parse_tsv(path):
                 continue  # unknown book
             # Skip rows with no content
             if not annotation:
+                continue
+            # Skip back-of-book index content (OCR'd table/index pages masquerading as annotations)
+            if is_index_content(annotation):
                 continue
             # Parse chapter:verse
             if ':' not in cv:
@@ -478,6 +541,8 @@ def build_chapter(abbrev, ch, verses, all_chapters, out_dir):
       <p>{source_long(abbrev)}</p>
     </div>
 
+{ocr_disclaimer_html()}
+
     <nav class="lapide-toc" aria-label="Verse list">
       <span class="toc-title">Verses annotated</span>
       <ol>
@@ -518,6 +583,37 @@ def build_css(out_dir):
     # Update comment header
     css = css.replace('/* === Lapide Commentary Browser === */',
                       '/* === Douai-Rheims 1609 Annotations Browser === */')
+    # Append OCR disclaimer styles
+    css += '''
+/* ── OCR Disclaimer ─────────────────────────────────────────────────────── */
+.ocr-disclaimer {
+  margin: 1.5rem 0;
+  padding: 1rem 1.2rem;
+  background: #fffbe6;
+  border: 2px solid #e6c600;
+  border-left: 5px solid #c8a000;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #4a3800;
+}
+.ocr-disclaimer strong {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+}
+.ocr-disclaimer p {
+  margin: 0;
+  line-height: 1.5;
+}
+@media (prefers-color-scheme: dark) {
+  .ocr-disclaimer {
+    background: #2a2200;
+    border-color: #806a00;
+    border-left-color: #c8a000;
+    color: #f0d060;
+  }
+}
+'''
     out_path = out_dir / 'douai.css'
     out_path.write_text(css, encoding='utf-8')
     print(f'  wrote {out_path}')
